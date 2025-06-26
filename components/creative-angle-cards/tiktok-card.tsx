@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
 import type { CreativeAngle } from "@/lib/types";
-import TiktokIcon from "@/assets/tiktok.avif";
+import TiktokIcon from "@/assets/tiktok.jpg";
 
 interface TiktokCardProps {
   angle: CreativeAngle;
