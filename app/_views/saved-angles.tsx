@@ -23,7 +23,7 @@ export function SavedAngles({ angles, onRemove, onExport, onShiftToDashboard }: 
           </Button>
           <Button size="sm" variant="gradient" disabled={angles.length === 0} onClick={onShiftToDashboard}>
             <LayoutDashboard className="h-3 w-3" />
-            View in Dashboard
+            View in Grid
           </Button>
         </div>
         <CardDescription>{angles.length} saved</CardDescription>

@@ -1,4 +1,4 @@
-import { Loader2, Sparkles } from "lucide-react";
+import { BugIcon, Loader2, Sparkles } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { mPlatforms } from "@/constants/platform";
 import { mTones } from "@/constants/tone";
 import type { Product } from "@/lib/types";
+import { cn, hasUrl } from "@/lib/utils";
 
 interface InputSectionProps {
   product: Product;
@@ -21,11 +22,16 @@ interface InputSectionProps {
 }
 
 export function InputSection({ product, isGenerating, onProductNameChange, onDescriptionChange, onPlatformChange, onToneChange, onGenerate }: InputSectionProps) {
+  const containsUrl = hasUrl(product.productDescription);
+
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>Generate Creative Angles for {product.productName}</CardTitle>
-        <CardDescription>Describe your product and we'll generate compelling marketing angles</CardDescription>
+      <CardHeader className="flex flex-row items-center justify-between">
+        <div className="flex flex-col gap-2">
+          <CardTitle>Creative Angles</CardTitle>
+          <CardDescription>Describe your product and we'll generate compelling marketing angles</CardDescription>
+        </div>
+        <BugIcon className={cn("w-7 h-7", containsUrl ? "text-green-500" : "text-gray-500")} />
       </CardHeader>
       <CardContent className="space-y-4">
         <div>
@@ -73,7 +79,7 @@ export function InputSection({ product, isGenerating, onProductNameChange, onDes
         </div>
 
         <Button size="lg" onClick={onGenerate} disabled={!product.productName.trim() || !product.productDescription.trim() || !product.platform || !product.tone || isGenerating} className="w-full">
-          {isGenerating ? <Loader2 className="h-6 w-6 animate-spin" /> : <Sparkles className="h-6 w-6" />}
+          {isGenerating ? <Loader2 className="h-7 w-7 animate-spin" /> : <Sparkles className="h-7 w-7" />}
           {isGenerating ? "Generating..." : "Generate Creative Angles"}
         </Button>
       </CardContent>

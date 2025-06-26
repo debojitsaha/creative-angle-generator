@@ -2,15 +2,32 @@
 
 import { z } from "zod";
 import JsonSchema from "zod-to-json-schema";
-import sharp from "sharp";
 import axios from "axios";
 
 import { openaiClient } from "@/config/openai";
 import { CreativeAngleSchema, CreativeAngle, Product } from "@/lib/types";
 import { generateCreativeAnglesPrompt, generateThumbnailPrompt } from "@/lib/prompts";
+import { firecrawlClient } from "@/config/firecrawl";
+import { extractUrls } from "@/lib/utils";
 
 export async function generateCreativeAngles(product: Product): Promise<CreativeAngle[]> {
   try {
+    const urls = extractUrls(product.productDescription);
+    let scrapedData: { markdown: string; json: any; metadata: any } = { markdown: "", json: {}, metadata: {} };
+
+    if (urls.length > 0) {
+      try {
+        for (const url of urls) {
+          const data = await scrapeWebsiteContent(url);
+          scrapedData.markdown += data.markdown;
+          scrapedData.json = { ...scrapedData.json, ...data.json };
+          scrapedData.metadata = { ...scrapedData.metadata, ...data.metadata };
+        }
+      } catch (error) {
+        console.warn("Failed to scrape website content:", error);
+      }
+    }
+
     const response = await openaiClient.chat.completions.create({
       model: "gpt-4o",
       messages: [
@@ -20,7 +37,7 @@ export async function generateCreativeAngles(product: Product): Promise<Creative
         },
         {
           role: "user",
-          content: `Product Name: ${product.productName}, Product Description: ${product.productDescription}, Platform: ${product.platform}, Tone: ${product.tone}`,
+          content: `Product Name: ${product.productName}, Product Description: ${product.productDescription}, Platform: ${product.platform}, Tone: ${product.tone}, Website Scraped Content: ${JSON.stringify(scrapedData)}`,
         },
       ],
       response_format: {
@@ -86,7 +103,7 @@ export async function generateCreativeAnglesThumbnail(angle: CreativeAngle): Pro
     const imageResponse = await openaiClient.images.generate({
       model: "dall-e-3",
       prompt: imagePrompt,
-      size: "1024x1024",
+      size: angle.product.platform === "linkedin" ? "1792x1024" : "1024x1792",
       quality: "standard",
       n: 1,
     });
@@ -128,22 +145,33 @@ export async function generateCreativeAnglesThumbnail(angle: CreativeAngle): Pro
   }
 }
 
-export async function scrapeWebsiteContent(url: string): Promise<string> {
-  // This would integrate with Firecrawl in a real implementation
-  // For now, return a placeholder
+export async function scrapeWebsiteContent(url: string): Promise<{ markdown: string; json: any; metadata: any }> {
   try {
-    const response = await fetch(url);
-    const html = await response.text();
+    const response = await firecrawlClient.scrapeUrl(url, {
+      formats: ["markdown", "json"],
+      jsonOptions: {
+        schema: z.object({
+          title: z.string(),
+          description: z.string(),
+          image: z.string(),
+          company_mission: z.string(),
+          company_values: z.string(),
+          company_products: z.string(),
+          company_services: z.string(),
+        }),
+      },
+    });
 
-    // Basic content extraction (in production, use Firecrawl)
-    const textContent = html
-      .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "")
-      .replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, "")
-      .replace(/<[^>]*>/g, " ")
-      .replace(/\s+/g, " ")
-      .trim();
+    if (!response.success || !response.markdown || !response.json) {
+      console.error("Failed to get markdown from Firecrawl", response);
+      throw new Error("Failed to get markdown from Firecrawl");
+    }
 
-    return textContent.substring(0, 1000); // Limit content length
+    return {
+      markdown: response.markdown,
+      json: response.json,
+      metadata: response.metadata,
+    };
   } catch (error) {
     console.error("Error scraping website:", error);
     throw new Error("Failed to scrape website content");

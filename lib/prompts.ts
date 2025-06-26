@@ -1,7 +1,7 @@
 export const generateCreativeAnglesPrompt = `
 You are a performance marketing strategist with expertise in creating high-converting ad campaigns. 
 
-You will be given a product description and a platform. You will need to generate 4 creative campaign angles tailored to the platform audience.
+You will be given a product description, a platform, a tone and a website scraped content(optional). You will need to generate 4 creative campaign angles tailored to the platform audience.
 
 For each angle, provide:
 1. A powerful headline (max 60 characters)
@@ -38,9 +38,11 @@ You are given a product description, platform, tone, and text content to include
 Your output should describe a **studio-quality product-centered thumbnail** that:
 1. Focuses visually on the product (realistic or photorealistic style)
 2. Uses a clean, premium aesthetic — think high-end fashion or luxury advertising
-3. Places the product on a rich background with controlled lighting (e.g., dark gradient, velvet texture, clean white, or minimal gradient)
-4. Has a **single strong focal point** with plenty of whitespace
-5. Avoids cluttered elements, futuristic themes, techy overlays, or glowing circuitry unless specified
+3. The product should be the main focus of the image, and the background should be minimal and clean.
+4. Include the product name, headline, hook, subheading, and CTA in the image.
+5. Places the product on a rich background with controlled lighting (e.g., dark gradient, velvet texture, clean white, or minimal gradient)
+6. Has a **single strong focal point** with plenty of whitespace
+7. Avoids cluttered elements, futuristic themes, techy overlays, or glowing circuitry unless specified
 6. Is optimized for high CTR on modern ad platforms (LinkedIn, Meta, etc.)
 7. Image resolution should be **crisp, clean, and photorealistic**, not illustrated or cartoonish.
 

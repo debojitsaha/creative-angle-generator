@@ -32,24 +32,13 @@ export function LinkedinCard({ angle, onSave, onRegenerate, onDiscard, onGenerat
   return (
     <Card className="flex flex-col h-full bg-white border border-gray-200 rounded-lg overflow-hidden">
       <div className="p-4 border-b border-gray-100">
-        <div className="flex items-start justify-between">
-          <div className="flex items-start space-x-3">
-            <div className="w-12 h-12 rounded-full flex items-center justify-center overflow-hidden">
-              <img src={LinkedinIcon.src} alt="Linkedin" className="w-full h-full object-cover" />
-            </div>
-            <div className="flex-1">
-              <div className="flex items-center space-x-2">
-                <p className="font-semibold text-base text-gray-900">{angle.product.productName}</p>
-                <span className="text-blue-600">•</span>
-                <span className="text-blue-600 text-sm font-medium">1st</span>
-              </div>
-              <p className="text-sm text-gray-600">Company Tagline • Promoted</p>
-              <p className="text-xs text-gray-500">2h • 🌍</p>
-            </div>
+        <div className="flex items-center space-x-3">
+          <div className="w-12 h-12 rounded-full flex items-center justify-center overflow-hidden">
+            <img src={LinkedinIcon.src} alt="Linkedin" className="w-full h-full object-cover" />
           </div>
-          <Button variant="ghost" size="sm" className="p-1">
-            <MoreHorizontal className="h-4 w-4 text-gray-500" />
-          </Button>
+          <div className="flex-1">
+            <p className="font-semibold text-base text-gray-900">{angle.product.productName}</p>
+          </div>
         </div>
       </div>
 
@@ -63,7 +52,7 @@ export function LinkedinCard({ angle, onSave, onRegenerate, onDiscard, onGenerat
         </div>
 
         {angle.thumbnail ? (
-          <div className="relative overflow-hidden rounded-lg">
+          <div className="relative overflow-hidden">
             <img src={angle.thumbnail} alt={`Thumbnail for ${angle.headline}`} className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300" />
           </div>
         ) : (
