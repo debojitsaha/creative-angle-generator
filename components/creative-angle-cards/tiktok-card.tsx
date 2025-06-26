@@ -3,7 +3,9 @@ import { RotateCcw, Save, Trash2, Image, Loader2, Heart, MessageCircle, Share, B
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+
 import type { CreativeAngle } from "@/lib/types";
+import TiktokIcon from "@/assets/tiktok.avif";
 
 interface TiktokCardProps {
   angle: CreativeAngle;
@@ -65,10 +67,8 @@ export function TiktokCard({ angle, onSave, onRegenerate, onDiscard, onGenerateT
           <div className="absolute right-4 bottom-20 flex flex-col items-center space-y-6">
             <div className="flex flex-col items-center">
               <div className="relative">
-                <div className="w-12 h-12 bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 rounded-full p-0.5">
-                  <div className="w-full h-full bg-gray-800 rounded-full flex items-center justify-center">
-                    <span className="text-white font-semibold text-sm">YB</span>
-                  </div>
+                <div className="w-12 h-12 rounded-full p-0.5 overflow-hidden">
+                  <img src={TiktokIcon.src} alt="Tiktok" className="w-full h-full object-cover" />
                 </div>
                 <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2">
                   <div className="w-6 h-6 bg-red-500 rounded-full flex items-center justify-center">

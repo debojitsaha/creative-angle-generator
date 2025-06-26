@@ -3,7 +3,9 @@ import { RotateCcw, Save, Trash2, Image, Loader2, Heart, MessageCircle, Repeat2,
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+
 import type { CreativeAngle } from "@/lib/types";
+import TwitterIcon from "@/assets/twitter.png";
 
 interface TwitterCardProps {
   angle: CreativeAngle;
@@ -34,8 +36,8 @@ export function TwitterCard({ angle, onSave, onRegenerate, onDiscard, onGenerate
     <Card className="flex flex-col h-full bg-white border border-gray-200 rounded-xl overflow-hidden hover:bg-gray-50 transition-colors">
       <CardContent className="p-0 group flex-1 flex flex-col">
         <div className="p-4 flex items-start space-x-3">
-          <div className="w-12 h-12 bg-black rounded-full flex items-center justify-center flex-shrink-0">
-            <span className="text-white font-bold text-lg">𝕏</span>
+          <div className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden">
+            <img src={TwitterIcon.src} alt="Twitter" className="w-full h-full object-cover" />
           </div>
 
           <div className="flex-1 min-w-0">

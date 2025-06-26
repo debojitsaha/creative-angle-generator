@@ -3,6 +3,8 @@ import { Image, Loader2, MessageCircle, RotateCcw, Save, Share, ThumbsUp, Trash2
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+
+import FacebookIcon from "@/assets/facebook.avif";
 import type { CreativeAngle } from "@/lib/types";
 
 interface FacebookCardProps {
@@ -32,8 +34,8 @@ export function FacebookCard({ angle, onSave, onRegenerate, onDiscard, onGenerat
       <div className="p-3 border-b border-gray-100">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center">
-              <span className="text-white font-semibold text-sm">FB</span>
+            <div className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden">
+              <img src={FacebookIcon.src} alt="Facebook" className="w-full h-full object-cover" />
             </div>
             <div>
               <p className="font-semibold text-sm text-gray-900">{angle.product.productName}</p>

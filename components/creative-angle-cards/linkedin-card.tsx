@@ -3,6 +3,8 @@ import { RotateCcw, Save, Trash2, Image, Loader2, ThumbsUp, MessageCircle, Repea
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+
+import LinkedinIcon from "@/assets/linkedin.png";
 import type { CreativeAngle } from "@/lib/types";
 
 interface LinkedinCardProps {
@@ -32,8 +34,8 @@ export function LinkedinCard({ angle, onSave, onRegenerate, onDiscard, onGenerat
       <div className="p-4 border-b border-gray-100">
         <div className="flex items-start justify-between">
           <div className="flex items-start space-x-3">
-            <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center">
-              <span className="text-white font-semibold text-lg">YB</span>
+            <div className="w-12 h-12 rounded-full flex items-center justify-center overflow-hidden">
+              <img src={LinkedinIcon.src} alt="Linkedin" className="w-full h-full object-cover" />
             </div>
             <div className="flex-1">
               <div className="flex items-center space-x-2">
