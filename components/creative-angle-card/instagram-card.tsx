@@ -32,23 +32,23 @@ export function InstagramCard({ angle, tone, onSave, onRegenerate, onDiscard, on
   return (
     <Card className="flex flex-col h-full bg-white border border-gray-200 rounded-lg overflow-hidden max-w-md mx-auto">
       {/* Instagram Header */}
-        <div className="p-3 flex items-center space-x-3">
-          <div className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 p-0.5">
-            <div className="w-full h-full bg-white rounded-full flex items-center justify-center">
-              <span className="text-xs font-semibold text-gray-800">YB</span>
-            </div>
+      <div className="p-3 flex items-center space-x-3">
+        <div className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 p-0.5">
+          <div className="w-full h-full bg-white rounded-full flex items-center justify-center">
+            <span className="text-xs font-semibold text-gray-800">YB</span>
           </div>
-          <div>
-            <p className="font-semibold text-sm text-gray-900">yourbrand</p>
-            <p className="text-xs text-gray-500">Sponsored</p>
-          </div>
+        </div>
+        <div>
+          <p className="font-semibold text-sm text-gray-900">yourbrand</p>
+          <p className="text-xs text-gray-500">Sponsored</p>
+        </div>
       </div>
 
-      <CardContent className="p-0 flex-1 flex flex-col">
+      <CardContent className="p-0 group flex-1 flex flex-col">
         {/* Instagram Square Image */}
         {angle.thumbnail ? (
-          <div className="aspect-square relative">
-            <img src={angle.thumbnail} alt={`Thumbnail for ${angle.headline}`} className="w-full h-full object-cover" />
+          <div className="aspect-square relative overflow-hidden rounded-lg">
+            <img src={angle.thumbnail} alt={`Thumbnail for ${angle.headline}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
           </div>
         ) : (
           <div className="aspect-square bg-gray-100 flex items-center justify-center">

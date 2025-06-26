@@ -31,13 +31,13 @@ export function TiktokCard({ angle, tone, onSave, onRegenerate, onDiscard, onGen
 
   return (
     <Card className="flex flex-col h-full bg-black text-white rounded-2xl overflow-hidden relative max-w-sm mx-auto">
-      <CardContent className="p-0 flex-1 flex flex-col relative">
+      <CardContent className="p-0 group flex-1 flex flex-col relative">
         {/* TikTok Video Container */}
         <div className="relative flex-1 bg-black">
           {/* Video/Thumbnail */}
           {angle.thumbnail ? (
-            <div className="relative h-full">
-              <img src={angle.thumbnail} alt={`Thumbnail for ${angle.headline}`} className="w-full h-full object-cover" />
+            <div className="relative h-full overflow-hidden rounded-lg">
+              <img src={angle.thumbnail} alt={`Thumbnail for ${angle.headline}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
               <div className="absolute inset-0 bg-black bg-opacity-20" />
               <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                 <div className="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center backdrop-blur-sm">

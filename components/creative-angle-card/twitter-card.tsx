@@ -34,7 +34,7 @@ export function TwitterCard({ angle, tone, onSave, onRegenerate, onDiscard, onGe
 
   return (
     <Card className="flex flex-col h-full bg-white border border-gray-200 rounded-xl overflow-hidden hover:bg-gray-50 transition-colors">
-      <CardContent className="p-0 flex-1 flex flex-col">
+      <CardContent className="p-0 group flex-1 flex flex-col">
         {/* Twitter Header */}
         <div className="p-4 flex items-start space-x-3">
           <div className="w-12 h-12 bg-black rounded-full flex items-center justify-center flex-shrink-0">
@@ -65,7 +65,7 @@ export function TwitterCard({ angle, tone, onSave, onRegenerate, onDiscard, onGe
               {/* Media */}
               {angle.thumbnail ? (
                 <div className="rounded-2xl overflow-hidden border border-gray-200 mt-3">
-                  <img src={angle.thumbnail} alt={`Thumbnail for ${angle.headline}`} className="w-full h-64 object-cover" />
+                  <img src={angle.thumbnail} alt={`Thumbnail for ${angle.headline}`} className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300" />
                 </div>
               ) : (
                 <div className="h-48 bg-gray-100 rounded-2xl flex items-center justify-center border border-gray-200 mt-3">

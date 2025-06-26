@@ -31,7 +31,7 @@ export function GoogleCard({ angle, tone, onSave, onRegenerate, onDiscard, onGen
 
   return (
     <Card className="flex flex-col h-full bg-white border border-gray-200 rounded-lg overflow-hidden">
-      <CardContent className="p-0 flex-1 flex flex-col">
+      <CardContent className="p-0 group flex-1 flex flex-col">
         {/* Google Ad Header */}
         <div className="p-4">
           <div className="flex items-center justify-between mb-3">
@@ -69,7 +69,7 @@ export function GoogleCard({ angle, tone, onSave, onRegenerate, onDiscard, onGen
             {/* Media */}
             {angle.thumbnail ? (
               <div className="rounded-lg overflow-hidden border border-gray-200 mt-3">
-                <img src={angle.thumbnail} alt={`Thumbnail for ${angle.headline}`} className="w-full h-48 object-cover" />
+                <img src={angle.thumbnail} alt={`Thumbnail for ${angle.headline}`} className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300" />
               </div>
             ) : (
               <div className="h-40 bg-gray-50 rounded-lg flex items-center justify-center border border-gray-200 mt-3">

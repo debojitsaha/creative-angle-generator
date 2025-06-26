@@ -46,7 +46,7 @@ export function FacebookCard({ angle, tone, onSave, onRegenerate, onDiscard, onG
         </div>
       </div>
 
-      <CardContent className="p-0 flex-1 flex flex-col">
+      <CardContent className="p-0 group flex-1 flex flex-col">
         {/* Post Content */}
         <div className="p-3 space-y-3">
           <div className="space-y-2">
@@ -58,8 +58,8 @@ export function FacebookCard({ angle, tone, onSave, onRegenerate, onDiscard, onG
 
         {/* Media */}
         {angle.thumbnail ? (
-          <div className="relative">
-            <img src={angle.thumbnail} alt={`Thumbnail for ${angle.headline}`} className="w-full h-64 object-cover" />
+          <div className="relative overflow-hidden rounded-lg">
+            <img src={angle.thumbnail} alt={`Thumbnail for ${angle.headline}`} className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300" />
           </div>
         ) : (
           <div className="h-48 bg-gray-100 flex items-center justify-center border-t border-b border-gray-100">
