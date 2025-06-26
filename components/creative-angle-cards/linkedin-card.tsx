@@ -44,10 +44,10 @@ export function LinkedinCard({ angle, onSave, onRegenerate, onDiscard, onGenerat
 
       <CardContent className="p-0 group flex-1 flex flex-col">
         <div className="px-4 py-3 space-y-3">
-          <div className="space-y-3">
-            <h3 className="font-semibold text-lg text-gray-900 leading-tight">{angle.headline}</h3>
-            <p className="text-base text-gray-700 leading-relaxed">{angle.hook}</p>
-            {angle.subheading && <p className="text-base text-gray-600 leading-relaxed">{angle.subheading}</p>}
+          <div className="space-y-1.5">
+            <h3 className="font-medium text-lg text-gray-900 leading-tight">{angle.headline}</h3>
+            <p className="text-sm text-gray-600 leading-relaxed">{angle.subheading}</p>
+            <p className="text-sm text-gray-700 leading-relaxed font-medium italic">{angle.hook}</p>
           </div>
         </div>
 
@@ -70,14 +70,11 @@ export function LinkedinCard({ angle, onSave, onRegenerate, onDiscard, onGenerat
         )}
 
         <div className="px-4 py-3 space-y-4 flex-1">
-          <div className="space-y-3">
-            <div>
-              <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Call to Action</p>
-              <p className="text-sm text-blue-600 font-medium">{angle.cta}</p>
-            </div>
+          <div className="space-y-1.5">
+            <p className="text-sm text-blue-600 font-medium tracking-wider my-2">{angle.cta}</p>
 
             <div>
-              <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Target Audience</p>
+              <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Best suited for</p>
               <p className="text-sm text-gray-700">{angle.insight}</p>
             </div>
           </div>

@@ -56,8 +56,8 @@ export function TwitterCard({ angle, onSave, onRegenerate, onDiscard, onGenerate
             <div className="space-y-3">
               <div className="space-y-2">
                 <h3 className="font-bold text-xl text-gray-900 leading-tight">{angle.headline}</h3>
-                <p className="text-base text-gray-900 leading-relaxed">{angle.hook}</p>
-                {angle.subheading && <p className="text-base text-gray-700 leading-relaxed">{angle.subheading}</p>}
+                <p className="text-sm text-gray-600 leading-relaxed">{angle.subheading}</p>
+                <p className="text-base text-gray-900 leading-relaxed font-medium italic">{angle.hook}</p>
               </div>
 
               {angle.thumbnail ? (
@@ -79,10 +79,10 @@ export function TwitterCard({ angle, onSave, onRegenerate, onDiscard, onGenerate
               )}
 
               <div className="space-y-2 pt-2">
-                <div className="text-blue-500 font-medium">{angle.cta}</div>
+                <p className="text-blue-500 font-medium tracking-wider">{angle.cta}</p>
 
                 <div className="text-sm text-gray-600">
-                  <span className="font-medium">Target:</span> {angle.insight}
+                  <span className="font-medium">Best suited for:</span> {angle.insight}
                 </div>
 
                 <div className="flex items-center justify-between text-xs text-gray-500 pt-2">

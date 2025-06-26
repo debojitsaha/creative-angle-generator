@@ -47,10 +47,10 @@ export function FacebookCard({ angle, onSave, onRegenerate, onDiscard, onGenerat
 
       <CardContent className="p-0 group flex-1 flex flex-col">
         <div className="p-3 space-y-3">
-          <div className="space-y-2">
-            <h3 className="font-semibold text-base text-gray-900">{angle.headline}</h3>
-            <p className="text-sm text-gray-700">{angle.hook}</p>
+          <div className="space-y-1.5">
+            <h3 className="font-medium text-base text-gray-900">{angle.headline}</h3>
             <p className="text-sm text-gray-600">{angle.subheading}</p>
+            <p className="text-sm text-gray-700 font-medium italic">{angle.hook}</p>
           </div>
         </div>
 
@@ -73,13 +73,10 @@ export function FacebookCard({ angle, onSave, onRegenerate, onDiscard, onGenerat
         )}
 
         <div className="p-3 space-y-3 flex-1">
-          <div>
-            <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Call to Action</p>
-            <p className="text-sm text-blue-600 font-medium">{angle.cta}</p>
-          </div>
+          <p className="text-sm text-blue-600 font-medium tracking-wider my-2">{angle.cta}</p>
 
           <div>
-            <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Target Audience</p>
+            <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Best suited for</p>
             <p className="text-sm text-gray-700">{angle.insight}</p>
           </div>
         </div>

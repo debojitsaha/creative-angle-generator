@@ -30,9 +30,7 @@ export function SavedAngleCard({ angle, onRemove }: SavedAngleCardProps) {
         <h4 className="text-lg font-medium line-clamp-2">{angle.headline}</h4>
         <p className="text-sm text-gray-600 line-clamp-2">{angle.hook}</p>
         <p className="text-sm text-gray-600 line-clamp-2 mt-2">{angle.insight}</p>
-        <Button size="sm" variant="gradient" className="mt-4">
-          {angle.cta}
-        </Button>
+        <p className="mt-2.5 text-primary font-medium tracking-wider">{angle.cta}</p>
       </div>
     </div>
   );

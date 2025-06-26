@@ -124,14 +124,14 @@ export function TiktokCard({ angle, onSave, onRegenerate, onDiscard, onGenerateT
 
               <div className="space-y-2">
                 <p className="text-white font-semibold text-base leading-tight">{angle.headline}</p>
-                <p className="text-white text-sm leading-relaxed">{angle.hook}</p>
-                {angle.subheading && <p className="text-gray-300 text-sm">{angle.subheading}</p>}
+                <p className="text-gray-300 text-sm">{angle.subheading}</p>
+                <p className="text-white text-sm leading-relaxed font-medium italic">{angle.hook}</p>
               </div>
 
               <div className="space-y-2">
                 <p className="text-blue-400 text-sm">#{angle.cta.replace(/\s+/g, "")} #fyp #trending</p>
                 <div className="text-xs text-gray-400">
-                  <span className="font-medium">Target:</span> {angle.insight}
+                  <span className="font-medium">Connect if you are:</span> {angle.insight}
                 </div>
               </div>
 

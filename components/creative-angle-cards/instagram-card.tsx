@@ -81,25 +81,19 @@ export function InstagramCard({ angle, onSave, onRegenerate, onDiscard, onGenera
           <div className="space-y-2">
             <p className="text-sm font-semibold text-gray-900">1,234 likes</p>
 
-            <div className="space-y-1">
-              <div className="flex items-start space-x-2">
-                <span className="font-semibold text-sm text-gray-900">{angle.product.productName}</span>
-                <div className="flex-1">
-                  <p className="text-sm text-gray-900">{angle.headline}</p>
-                </div>
-              </div>
+            <div className="">
+              <p className="text-sm text-gray-900">
+                <span className="font-semibold">{angle.product.productName} - </span>
+                <span className="text-gray-900 font-medium">{angle.headline}</span>
+              </p>
 
-              <p className="text-sm text-gray-900 leading-relaxed">{angle.hook}</p>
+              <p className="text-sm text-gray-700">{angle.subheading}</p>
+              <p className="text-sm text-gray-900 font-medium italic">{angle.hook}</p>
 
-              {angle.subheading && <p className="text-sm text-gray-700">{angle.subheading}</p>}
-
-              <div className="pt-2">
-                <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Call to Action</p>
-                <p className="text-sm text-blue-600 font-medium">{angle.cta}</p>
-              </div>
+              <p className="text-sm text-blue-600 font-medium tracking-wider my-2">{angle.cta}</p>
 
               <div className="pt-1">
-                <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Target</p>
+                <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Best suited for</p>
                 <p className="text-sm text-gray-600">{angle.insight}</p>
               </div>
             </div>
