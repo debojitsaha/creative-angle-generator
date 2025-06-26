@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Trash2 } from "lucide-react";
+import { Image, XIcon } from "lucide-react";
 import type { CreativeAngle } from "@/lib/types";
 
 interface SavedAngleCardProps {
@@ -9,15 +9,25 @@ interface SavedAngleCardProps {
 
 export function SavedAngleCard({ angle, onRemove }: SavedAngleCardProps) {
   return (
-    <div className="p-3 border rounded-lg">
-      <div className="flex items-start justify-between mb-2">
-        <h4 className="text-sm font-medium line-clamp-2">{angle.headline}</h4>
-        <Button size="sm" variant="ghost" onClick={() => onRemove(angle.id!)} className="h-6 w-6 p-0 ml-2 flex-shrink-0">
-          <Trash2 className="h-3 w-3" />
+    <div className="group flex items-center justify-center gap-4 w-full border border-gray-200 rounded-lg p-3 relative">
+      <Button size="icon" variant="ghost" onClick={() => onRemove(angle.id!)} className="absolute top-2 right-2">
+        <XIcon className="h-6 w-6 text-gray-400" />
+      </Button>
+      <div className="w-48 h-44 border border-gray-200 rounded-lg flex items-center justify-center overflow-hidden">
+        {angle.thumbnail ? (
+          <img src={angle.thumbnail} alt={angle.headline} className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300" />
+        ) : (
+          <Image className="h-18 w-18 text-gray-400 bg-gray-100 rounded-lg" />
+        )}
+      </div>
+      <div className="flex flex-col items-start gap-px flex-1">
+        <h4 className="text-lg font-medium line-clamp-2">{angle.headline}</h4>
+        <p className="text-sm text-gray-600 line-clamp-2">{angle.hook}</p>
+        <p className="text-sm text-gray-600 line-clamp-2 mt-2">{angle.insight}</p>
+        <Button size="sm" variant="gradient" className="mt-4">
+          {angle.cta}
         </Button>
       </div>
-      <p className="text-xs text-gray-600 line-clamp-2">{angle.hook}</p>
-      <p className="text-xs font-medium text-purple-600 mt-1">{angle.cta}</p>
     </div>
   );
 }

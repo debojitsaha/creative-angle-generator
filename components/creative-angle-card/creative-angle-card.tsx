@@ -1,10 +1,11 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { RotateCcw, Save, Trash2 } from "lucide-react";
+import { RotateCcw, Save, Trash2, Image, Loader2 } from "lucide-react";
 import type { CreativeAngle } from "@/lib/types";
 import { mPlatforms } from "@/constants/platform";
 import { mTones } from "@/constants/tone";
+import { useState } from "react";
 
 interface CreativeAngleCardProps {
   angle: CreativeAngle;
@@ -13,43 +14,78 @@ interface CreativeAngleCardProps {
   onSave: (angle: CreativeAngle) => void;
   onRegenerate: (index: number) => void;
   onDiscard: (index: number) => void;
+  onGenerateThumbnail: (index: number, angle: CreativeAngle) => Promise<void>;
   index: number;
 }
 
-export function CreativeAngleCard({ angle, platform, tone, onSave, onRegenerate, onDiscard, index }: CreativeAngleCardProps) {
+export function CreativeAngleCard({ angle, platform, tone, onSave, onRegenerate, onDiscard, onGenerateThumbnail, index }: CreativeAngleCardProps) {
+  const [isGeneratingThumbnail, setIsGeneratingThumbnail] = useState(false);
+
+  const handleGenerateThumbnail = async () => {
+    setIsGeneratingThumbnail(true);
+    try {
+      await onGenerateThumbnail(index, angle);
+    } catch (error) {
+      console.error("Failed to generate thumbnail:", error);
+    }
+    setIsGeneratingThumbnail(false);
+  };
+
   return (
-    <Card className="hover:shadow-lg transition-shadow">
+    <Card className="flex flex-col h-full">
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between">
-          <Badge variant="secondary" className="mb-2">
-            {mPlatforms.find((p) => p.value === platform)?.label}
-          </Badge>
-          <Badge variant="outline">{mTones.find((t) => t.value === tone)?.label}</Badge>
+          {platform ? (
+            <Badge variant="secondary" className="mb-2">
+              {mPlatforms.find((p) => p.value === platform)?.label}
+            </Badge>
+          ) : null}
+          {tone ? <Badge variant="outline">{mTones.find((t) => t.value === tone)?.label}</Badge> : null}
         </div>
         <CardTitle className="text-lg leading-tight">{angle.headline}</CardTitle>
       </CardHeader>
-      <CardContent className="space-y-3">
-        <div>
-          <p className="text-sm font-medium text-gray-700 mb-1">Hook:</p>
-          <p className="text-sm text-gray-600">{angle.hook}</p>
+      <CardContent className="group flex-1 flex flex-col">
+        {angle.thumbnail ? (
+          <div className="mb-4 overflow-hidden rounded-lg border">
+            <img src={angle.thumbnail} alt={`Thumbnail for ${angle.headline}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+          </div>
+        ) : (
+          <div className="mb-4 h-64 bg-gray-100 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center">
+            <div className="text-center text-gray-500">
+              <Image className="mx-auto h-8 w-8 mb-2" />
+              <p className="text-sm">No thumbnail yet</p>
+              {!angle.thumbnail && (
+                <Button size="sm" variant="outline" onClick={handleGenerateThumbnail} disabled={isGeneratingThumbnail} className="flex-1 mt-2.5">
+                  {isGeneratingThumbnail ? <Loader2 className="mr-1 h-3 w-3 animate-spin" /> : "Generate"}
+                </Button>
+              )}
+            </div>
+          </div>
+        )}
+
+        <div className="space-y-4 flex-1">
+          <div>
+            <p className="text-sm font-medium text-gray-700">Hook Line:</p>
+            <p className="text-base text-gray-600 font-medium">{angle.hook}</p>
+          </div>
+
+          <div>
+            <p className="text-sm font-medium text-gray-700">Subheading:</p>
+            <p className="text-base text-gray-600 font-medium">{angle.subheading}</p>
+          </div>
+
+          <div>
+            <p className="text-sm font-medium text-gray-700">CTA:</p>
+            <p className="text-base text-gray-600 font-medium">{angle.cta}</p>
+          </div>
+
+          <div>
+            <p className="text-sm font-medium text-gray-700">Target Audience:</p>
+            <p className="text-base text-primary font-medium">{angle.insight}</p>
+          </div>
         </div>
 
-        <div>
-          <p className="text-sm font-medium text-gray-700 mb-1">Subheading:</p>
-          <p className="text-sm text-gray-600">{angle.subheading}</p>
-        </div>
-
-        <div>
-          <p className="text-sm font-medium text-gray-700 mb-1">CTA:</p>
-          <p className="text-sm text-gray-600 font-medium">{angle.cta}</p>
-        </div>
-
-        <div>
-          <p className="text-sm font-medium text-gray-700 mb-1">Target Audience:</p>
-          <p className="text-sm text-gray-500 italic">{angle.insight}</p>
-        </div>
-
-        <div className="flex gap-2 pt-2">
+        <div className="flex gap-2 pt-4 mt-auto">
           <Button size="sm" onClick={() => onSave(angle)} className="flex-1">
             <Save className="mr-1 h-3 w-3" />
             Save

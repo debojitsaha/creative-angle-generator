@@ -5,7 +5,7 @@ import JsonSchema from "zod-to-json-schema";
 
 import { openaiClient } from "@/config/openai";
 import { CreativeAngleSchema, CreativeAngle } from "@/lib/types";
-import { generateCreativeAnglesPrompt } from "@/lib/prompts";
+import { generateCreativeAnglesPrompt, generateThumbnailPrompt } from "@/lib/prompts";
 
 interface GenerateAnglesInput {
   productDescription: string;
@@ -70,6 +70,62 @@ export async function generateCreativeAngles({ productDescription, platform, ton
         insight: "Leverages curiosity and exclusivity",
       },
     ];
+  }
+}
+
+export async function generateCreativeAnglesThumbnail({ productDescription, platform, tone, angle }: { productDescription: string; platform: string; tone: string; angle: CreativeAngle }): Promise<string> {
+  try {
+    // Step 1: Generate image prompt using GPT-4o
+    const promptResponse = await openaiClient.chat.completions.create({
+      model: "gpt-4o",
+      messages: [
+        {
+          role: "system",
+          content: generateThumbnailPrompt,
+        },
+        {
+          role: "user",
+          content: `Product Description: ${productDescription}
+          Platform: ${platform}
+          Tone: ${tone}
+          Creative Angle:
+          - Headline: ${angle.headline}
+          - Hook: ${angle.hook}
+          - Subheading: ${angle.subheading}
+          - CTA: ${angle.cta}
+          - Insight: ${angle.insight}`,
+        },
+      ],
+      temperature: 0.2,
+    });
+
+    const imagePrompt = promptResponse.choices[0].message.content;
+    console.log("imagePrompt", imagePrompt);
+
+    if (!imagePrompt) {
+      throw new Error("Failed to generate image prompt");
+    }
+
+    // Step 2: Generate image using DALL-E
+    const imageResponse = await openaiClient.images.generate({
+      model: "dall-e-3",
+      prompt: imagePrompt,
+      size: "1024x1024",
+      quality: "standard",
+      n: 1,
+    });
+
+    const imageUrl = imageResponse.data?.[0]?.url;
+
+    if (!imageUrl) {
+      console.error("Failed to generate image", imageResponse);
+      throw new Error("Failed to generate image");
+    }
+
+    return imageUrl;
+  } catch (error) {
+    console.error("Error generating thumbnail:", error);
+    throw new Error("Failed to generate thumbnail");
   }
 }
 

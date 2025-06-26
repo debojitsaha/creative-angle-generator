@@ -7,6 +7,7 @@ export const CreativeAngleSchema = z.object({
   subheading: z.string(),
   cta: z.string(),
   insight: z.string(),
+  thumbnail: z.string().optional().nullish(),
 });
 
 export type CreativeAngle = z.infer<typeof CreativeAngleSchema>;

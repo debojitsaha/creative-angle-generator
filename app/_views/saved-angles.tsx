@@ -12,16 +12,14 @@ interface SavedAnglesProps {
 
 export function SavedAngles({ angles, onRemove, onExport }: SavedAnglesProps) {
   return (
-    <Card className="sticky top-4">
+    <Card className="sticky top-4 h-full max-h-screen overflow-y-auto">
       <CardHeader>
         <div className="flex items-center justify-between">
           <CardTitle className="text-lg">Saved Angles</CardTitle>
-          {angles.length > 0 && (
-            <Button size="sm" variant="outline" onClick={onExport}>
-              <Download className="h-3 w-3 mr-1" />
-              Export
-            </Button>
-          )}
+          <Button size="sm" variant="outline" disabled={angles.length === 0} onClick={onExport}>
+            <Download className="h-3 w-3 mr-1" />
+            Export
+          </Button>
         </div>
         <CardDescription>{angles.length} saved</CardDescription>
       </CardHeader>
@@ -29,7 +27,7 @@ export function SavedAngles({ angles, onRemove, onExport }: SavedAnglesProps) {
         {angles.length === 0 ? (
           <p className="text-sm text-gray-500 text-center py-4">No saved angles yet. Generate some angles and save your favorites!</p>
         ) : (
-          <div className="space-y-3 max-h-96 overflow-y-auto">
+          <div className="space-y-3">
             {angles.map((angle) => (
               <SavedAngleCard key={angle.id} angle={angle} onRemove={onRemove} />
             ))}
