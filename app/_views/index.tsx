@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { generateCreativeAngles, generateCreativeAnglesThumbnail } from "@/app/actions";
+import { generateCreativeAngles, generateCreativeAnglesThumbnail } from "@/app/api/creative-angles";
 
 import { Skeleton } from "@/components/ui/skeleton";
 import { InputSection } from "@/app/_views/input-section";
@@ -45,10 +45,7 @@ export function HomeView() {
       // Automatically generate thumbnail for the first angle
       if (angles.length > 0) {
         try {
-          const thumbnailUrl = await generateCreativeAnglesThumbnail({
-            product,
-            angle: angles[0],
-          });
+          const thumbnailUrl = await generateCreativeAnglesThumbnail(angles[0]);
 
           updatedAngles = updatedAngles.map((angle, index) => (index === 0 ? { ...angle, thumbnail: thumbnailUrl } : angle));
         } catch (error) {
@@ -69,10 +66,7 @@ export function HomeView() {
 
   const handleGenerateThumbnail = async (index: number, angle: CreativeAngle) => {
     try {
-      const thumbnailUrl = await generateCreativeAnglesThumbnail({
-        product,
-        angle,
-      });
+      const thumbnailUrl = await generateCreativeAnglesThumbnail(angle);
 
       setGeneratedAngles((prev) => prev.map((a, i) => (i === index ? { ...a, thumbnail: thumbnailUrl } : a)));
     } catch (error) {
@@ -151,7 +145,7 @@ export function HomeView() {
                 ))}
               </div>
             ) : (
-              <GeneratedAngles product={product} angles={generatedAngles} onSave={handleSaveAngle} onRegenerate={handleRegenerateAngle} onDiscard={handleDiscardAngle} onGenerateThumbnail={handleGenerateThumbnail} />
+              <GeneratedAngles angles={generatedAngles} onSave={handleSaveAngle} onRegenerate={handleRegenerateAngle} onDiscard={handleDiscardAngle} onGenerateThumbnail={handleGenerateThumbnail} />
             )}
           </div>
 

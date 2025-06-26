@@ -2,6 +2,8 @@
 
 import { z } from "zod";
 import JsonSchema from "zod-to-json-schema";
+import sharp from "sharp";
+import axios from "axios";
 
 import { openaiClient } from "@/config/openai";
 import { CreativeAngleSchema, CreativeAngle, Product } from "@/lib/types";
@@ -50,9 +52,8 @@ export async function generateCreativeAngles(product: Product): Promise<Creative
   }
 }
 
-export async function generateCreativeAnglesThumbnail({ product, angle }: { product: Product; angle: CreativeAngle }): Promise<string> {
+export async function generateCreativeAnglesThumbnail(angle: CreativeAngle): Promise<string> {
   try {
-    // Step 1: Generate image prompt using GPT-4o
     const promptResponse = await openaiClient.chat.completions.create({
       model: "gpt-4o",
       messages: [
@@ -62,10 +63,10 @@ export async function generateCreativeAnglesThumbnail({ product, angle }: { prod
         },
         {
           role: "user",
-          content: `Product Name: ${product.productName}
-          Product Description: ${product.productDescription}
-          Platform: ${product.platform}
-          Tone: ${product.tone}
+          content: `Product Name: ${angle.product.productName}
+          Product Description: ${angle.product.productDescription}
+          Platform: ${angle.product.platform}
+          Tone: ${angle.product.tone}
           Creative Angle:
           - Headline: ${angle.headline}
           - Hook: ${angle.hook}
@@ -78,13 +79,10 @@ export async function generateCreativeAnglesThumbnail({ product, angle }: { prod
     });
 
     const imagePrompt = promptResponse.choices[0].message.content;
-    console.log("imagePrompt", imagePrompt);
-
     if (!imagePrompt) {
       throw new Error("Failed to generate image prompt");
     }
 
-    // Step 2: Generate image using DALL-E
     const imageResponse = await openaiClient.images.generate({
       model: "dall-e-3",
       prompt: imagePrompt,
@@ -93,16 +91,39 @@ export async function generateCreativeAnglesThumbnail({ product, angle }: { prod
       n: 1,
     });
 
-    const imageUrl = imageResponse.data?.[0]?.url;
-
-    if (!imageUrl) {
-      console.error("Failed to generate image", imageResponse);
-      throw new Error("Failed to generate image");
+    const baseImageUrl = imageResponse.data?.[0]?.url;
+    if (!baseImageUrl) {
+      throw new Error("Failed to get image from DALL-E");
     }
 
-    return imageUrl;
+    const response = await axios.get(baseImageUrl, { responseType: "arraybuffer" });
+    const baseImageBuffer = Buffer.from(response.data);
+    const base64Image = `data:image/png;base64,${baseImageBuffer.toString("base64")}`;
+
+    const base64Response = await fetch(base64Image);
+    const imageBlob = await base64Response.blob();
+
+    const formData = new FormData();
+    const filename = `thumbnail-${Date.now()}.${imageBlob.type.split("/")[1]}`;
+    formData.append("template_file", imageBlob, filename);
+
+    const uploadResponse = await axios.post("https://prod.zocket.com//engine/ads/api/v1/upload_template_S3", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Accept: "application/json",
+      },
+    });
+
+    if (!uploadResponse.data?.url) {
+      throw new Error("Failed to get upload URL from S3");
+    }
+
+    return uploadResponse.data.url;
   } catch (error) {
-    console.error("Error generating thumbnail:", error);
+    console.error("Error generating hybrid thumbnail:", error);
+    if (axios.isAxiosError(error)) {
+      console.error("API Error details:", error.response?.data);
+    }
     throw new Error("Failed to generate thumbnail");
   }
 }

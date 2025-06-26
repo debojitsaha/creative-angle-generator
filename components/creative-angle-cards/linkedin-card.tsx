@@ -3,10 +3,9 @@ import { RotateCcw, Save, Trash2, Image, Loader2, ThumbsUp, MessageCircle, Repea
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import type { CreativeAngle, Product } from "@/lib/types";
+import type { CreativeAngle } from "@/lib/types";
 
 interface LinkedinCardProps {
-  product: Product;
   angle: CreativeAngle;
   onSave: (angle: CreativeAngle) => void;
   onRegenerate: (index: number) => void;
@@ -15,7 +14,7 @@ interface LinkedinCardProps {
   index: number;
 }
 
-export function LinkedinCard({ product, angle, onSave, onRegenerate, onDiscard, onGenerateThumbnail, index }: LinkedinCardProps) {
+export function LinkedinCard({ angle, onSave, onRegenerate, onDiscard, onGenerateThumbnail, index }: LinkedinCardProps) {
   const [isGeneratingThumbnail, setIsGeneratingThumbnail] = useState(false);
 
   const handleGenerateThumbnail = async () => {
@@ -38,7 +37,7 @@ export function LinkedinCard({ product, angle, onSave, onRegenerate, onDiscard, 
             </div>
             <div className="flex-1">
               <div className="flex items-center space-x-2">
-                <p className="font-semibold text-base text-gray-900">{product.productName}</p>
+                <p className="font-semibold text-base text-gray-900">{angle.product.productName}</p>
                 <span className="text-blue-600">•</span>
                 <span className="text-blue-600 text-sm font-medium">1st</span>
               </div>

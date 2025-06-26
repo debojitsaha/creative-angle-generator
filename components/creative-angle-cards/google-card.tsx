@@ -3,10 +3,9 @@ import { ExternalLink, Image, Loader2, RotateCcw, Save, Star, Trash2 } from "luc
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import type { CreativeAngle, Product } from "@/lib/types";
+import type { CreativeAngle } from "@/lib/types";
 
 interface GoogleCardProps {
-  product: Product;
   angle: CreativeAngle;
   onSave: (angle: CreativeAngle) => void;
   onRegenerate: (index: number) => void;
@@ -15,7 +14,7 @@ interface GoogleCardProps {
   index: number;
 }
 
-export function GoogleCard({ product, angle, onSave, onRegenerate, onDiscard, onGenerateThumbnail, index }: GoogleCardProps) {
+export function GoogleCard({ angle, onSave, onRegenerate, onDiscard, onGenerateThumbnail, index }: GoogleCardProps) {
   const [isGeneratingThumbnail, setIsGeneratingThumbnail] = useState(false);
 
   const handleGenerateThumbnail = async () => {
@@ -47,7 +46,7 @@ export function GoogleCard({ product, angle, onSave, onRegenerate, onDiscard, on
               <div className="w-4 h-4 bg-gray-300 rounded-sm flex items-center justify-center">
                 <div className="w-2 h-2 bg-white rounded-sm"></div>
               </div>
-              <p className="text-sm text-green-700">{product.productName}.com</p>
+              <p className="text-sm text-green-700">{angle.product.productName}.com</p>
               <ExternalLink className="h-3 w-3 text-gray-400" />
             </div>
 

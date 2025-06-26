@@ -3,10 +3,9 @@ import { RotateCcw, Save, Trash2, Image, Loader2, Heart, MessageCircle, Share, B
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import type { CreativeAngle, Product } from "@/lib/types";
+import type { CreativeAngle } from "@/lib/types";
 
 interface TiktokCardProps {
-  product: Product;
   angle: CreativeAngle;
   onSave: (angle: CreativeAngle) => void;
   onRegenerate: (index: number) => void;
@@ -15,7 +14,7 @@ interface TiktokCardProps {
   index: number;
 }
 
-export function TiktokCard({ product, angle, onSave, onRegenerate, onDiscard, onGenerateThumbnail, index }: TiktokCardProps) {
+export function TiktokCard({ angle, onSave, onRegenerate, onDiscard, onGenerateThumbnail, index }: TiktokCardProps) {
   const [isGeneratingThumbnail, setIsGeneratingThumbnail] = useState(false);
 
   const handleGenerateThumbnail = async () => {
@@ -118,7 +117,7 @@ export function TiktokCard({ product, angle, onSave, onRegenerate, onDiscard, on
           <div className="absolute bottom-4 left-4 right-20">
             <div className="space-y-3">
               <div className="flex items-center space-x-2">
-                <span className="text-white font-semibold">{product.productName}</span>
+                <span className="text-white font-semibold">{angle.product.productName}</span>
                 <div className="w-1 h-1 bg-white rounded-full"></div>
                 <span className="text-gray-300 text-sm">Follow</span>
               </div>
@@ -138,7 +137,7 @@ export function TiktokCard({ product, angle, onSave, onRegenerate, onDiscard, on
 
               <div className="flex items-center space-x-2 text-sm">
                 <Music className="h-4 w-4 text-white" />
-                <span className="text-white">Original Audio - {product.productName}</span>
+                <span className="text-white">Original Audio - {angle.product.productName}</span>
               </div>
             </div>
           </div>

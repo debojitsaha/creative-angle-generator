@@ -1,8 +1,17 @@
 import { z } from "zod";
 
+export const ProductSchema = z.object({
+  productName: z.string(),
+  productDescription: z.string(),
+  platform: z.string(),
+  tone: z.string(),
+});
+
+export type Product = z.infer<typeof ProductSchema>;
+
 export const CreativeAngleSchema = z.object({
   id: z.string().optional().nullish(),
-  platform: z.string(),
+  product: ProductSchema,
   headline: z.string(),
   hook: z.string(),
   subheading: z.string(),
@@ -12,12 +21,3 @@ export const CreativeAngleSchema = z.object({
 });
 
 export type CreativeAngle = z.infer<typeof CreativeAngleSchema>;
-
-export const ProductSchema = z.object({
-  productName: z.string(),
-  productDescription: z.string(),
-  platform: z.string(),
-  tone: z.string(),
-});
-
-export type Product = z.infer<typeof ProductSchema>;

@@ -3,10 +3,9 @@ import { Image, Loader2, MessageCircle, RotateCcw, Save, Share, ThumbsUp, Trash2
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import type { CreativeAngle, Product } from "@/lib/types";
+import type { CreativeAngle } from "@/lib/types";
 
 interface FacebookCardProps {
-  product: Product;
   angle: CreativeAngle;
   onSave: (angle: CreativeAngle) => void;
   onRegenerate: (index: number) => void;
@@ -15,7 +14,7 @@ interface FacebookCardProps {
   index: number;
 }
 
-export function FacebookCard({ product, angle, onSave, onRegenerate, onDiscard, onGenerateThumbnail, index }: FacebookCardProps) {
+export function FacebookCard({ angle, onSave, onRegenerate, onDiscard, onGenerateThumbnail, index }: FacebookCardProps) {
   const [isGeneratingThumbnail, setIsGeneratingThumbnail] = useState(false);
 
   const handleGenerateThumbnail = async () => {
@@ -37,7 +36,7 @@ export function FacebookCard({ product, angle, onSave, onRegenerate, onDiscard, 
               <span className="text-white font-semibold text-sm">FB</span>
             </div>
             <div>
-              <p className="font-semibold text-sm text-gray-900">{product.productName}</p>
+              <p className="font-semibold text-sm text-gray-900">{angle.product.productName}</p>
               <p className="text-xs text-gray-500">2h • 🌍</p>
             </div>
           </div>
@@ -54,7 +53,7 @@ export function FacebookCard({ product, angle, onSave, onRegenerate, onDiscard, 
         </div>
 
         {angle.thumbnail ? (
-          <div className="relative overflow-hidden rounded-lg">
+          <div className="relative overflow-hidden">
             <img src={angle.thumbnail} alt={`Thumbnail for ${angle.headline}`} className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300" />
           </div>
         ) : (

@@ -3,10 +3,9 @@ import { RotateCcw, Save, Trash2, Image, Loader2, Heart, MessageCircle, Send, Bo
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import type { CreativeAngle, Product } from "@/lib/types";
+import type { CreativeAngle } from "@/lib/types";
 
 interface InstagramCardProps {
-  product: Product;
   angle: CreativeAngle;
   onSave: (angle: CreativeAngle) => void;
   onRegenerate: (index: number) => void;
@@ -15,7 +14,7 @@ interface InstagramCardProps {
   index: number;
 }
 
-export function InstagramCard({ product, angle, onSave, onRegenerate, onDiscard, onGenerateThumbnail, index }: InstagramCardProps) {
+export function InstagramCard({ angle, onSave, onRegenerate, onDiscard, onGenerateThumbnail, index }: InstagramCardProps) {
   const [isGeneratingThumbnail, setIsGeneratingThumbnail] = useState(false);
 
   const handleGenerateThumbnail = async () => {
@@ -37,7 +36,7 @@ export function InstagramCard({ product, angle, onSave, onRegenerate, onDiscard,
           </div>
         </div>
         <div>
-          <p className="font-semibold text-sm text-gray-900">{product.productName}</p>
+          <p className="font-semibold text-sm text-gray-900">{angle.product.productName}</p>
           <p className="text-xs text-gray-500">Sponsored</p>
         </div>
       </div>
@@ -84,7 +83,7 @@ export function InstagramCard({ product, angle, onSave, onRegenerate, onDiscard,
 
             <div className="space-y-1">
               <div className="flex items-start space-x-2">
-                <span className="font-semibold text-sm text-gray-900">{product.productName}</span>
+                <span className="font-semibold text-sm text-gray-900">{angle.product.productName}</span>
                 <div className="flex-1">
                   <p className="text-sm text-gray-900">{angle.headline}</p>
                 </div>

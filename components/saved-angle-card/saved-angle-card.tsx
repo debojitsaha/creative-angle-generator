@@ -24,6 +24,9 @@ export function SavedAngleCard({ angle, onRemove }: SavedAngleCardProps) {
         )}
       </div>
       <div className="flex flex-col items-start gap-px flex-1">
+        <h3 className="text-sm text-gray-600">
+          {angle.product.productName} • {angle.product.platform}
+        </h3>
         <h4 className="text-lg font-medium line-clamp-2">{angle.headline}</h4>
         <p className="text-sm text-gray-600 line-clamp-2">{angle.hook}</p>
         <p className="text-sm text-gray-600 line-clamp-2 mt-2">{angle.insight}</p>

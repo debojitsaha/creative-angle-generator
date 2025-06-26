@@ -21,7 +21,12 @@ The angles should be in a JSON array with the following structure:
     "subheading": "string",
     "cta": "string",
     "insight": "string",
-    "platform": "string",
+    "product": {
+      "productName": "string",
+      "productDescription": "string",
+      "platform": "string",
+      "tone": "string"
+    }
   }
 ]`;
 
@@ -35,11 +40,9 @@ Your output should describe a **studio-quality product-centered thumbnail** that
 2. Uses a clean, premium aesthetic — think high-end fashion or luxury advertising
 3. Places the product on a rich background with controlled lighting (e.g., dark gradient, velvet texture, clean white, or minimal gradient)
 4. Has a **single strong focal point** with plenty of whitespace
-5. Includes the provided headline, hook, subheading, and CTA **as readable, balanced on-image text** — well-positioned like a typical ecommerce display ad
-6. Uses a **bold clear font** for CTA and headings (like Helvetica, Futura, or Proxima Nova), but doesn’t crowd the layout
-7. Avoids cluttered elements, futuristic themes, techy overlays, or glowing circuitry unless specified
-8. Is optimized for high CTR on modern ad platforms (LinkedIn, Meta, etc.)
-9. Image resolution should be **crisp, clean, and photorealistic**, not illustrated or cartoonish.
+5. Avoids cluttered elements, futuristic themes, techy overlays, or glowing circuitry unless specified
+6. Is optimized for high CTR on modern ad platforms (LinkedIn, Meta, etc.)
+7. Image resolution should be **crisp, clean, and photorealistic**, not illustrated or cartoonish.
 
 Include:
 - Description of **background and lighting**

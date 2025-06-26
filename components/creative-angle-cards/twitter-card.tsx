@@ -3,10 +3,9 @@ import { RotateCcw, Save, Trash2, Image, Loader2, Heart, MessageCircle, Repeat2,
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import type { CreativeAngle, Product } from "@/lib/types";
+import type { CreativeAngle } from "@/lib/types";
 
 interface TwitterCardProps {
-  product: Product;
   angle: CreativeAngle;
   onSave: (angle: CreativeAngle) => void;
   onRegenerate: (index: number) => void;
@@ -15,7 +14,7 @@ interface TwitterCardProps {
   index: number;
 }
 
-export function TwitterCard({ product, angle, onSave, onRegenerate, onDiscard, onGenerateThumbnail, index }: TwitterCardProps) {
+export function TwitterCard({ angle, onSave, onRegenerate, onDiscard, onGenerateThumbnail, index }: TwitterCardProps) {
   const [isGeneratingThumbnail, setIsGeneratingThumbnail] = useState(false);
 
   const handleGenerateThumbnail = async () => {
@@ -42,12 +41,12 @@ export function TwitterCard({ product, angle, onSave, onRegenerate, onDiscard, o
           <div className="flex-1 min-w-0">
             <div className="flex items-center space-x-2 mb-1">
               <div className="flex items-center space-x-1">
-                <p className="font-bold text-base text-gray-900">{product.productName}</p>
+                <p className="font-bold text-base text-gray-900">{angle.product.productName}</p>
                 <div className="w-5 h-5 bg-blue-500 rounded-full flex items-center justify-center">
                   <span className="text-white text-xs">✓</span>
                 </div>
               </div>
-              <span className="text-gray-500">{product.productName}</span>
+              <span className="text-gray-500">{angle.product.productName}</span>
               <span className="text-gray-500">•</span>
               <span className="text-gray-500 text-sm">2h</span>
             </div>
