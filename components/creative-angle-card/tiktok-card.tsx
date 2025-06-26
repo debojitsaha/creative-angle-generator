@@ -1,14 +1,13 @@
-import { Badge } from "@/components/ui/badge";
+import { useState } from "react";
+import { RotateCcw, Save, Trash2, Image, Loader2, Heart, MessageCircle, Share, Bookmark, Play, Music, MoreHorizontal, Plus } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { RotateCcw, Save, Trash2, Image, Loader2, Heart, MessageCircle, Share, Bookmark, Play, Music, MoreHorizontal, Plus } from "lucide-react";
-import type { CreativeAngle } from "@/lib/types";
-import { mTones } from "@/constants/tone";
-import { useState } from "react";
+import type { CreativeAngle, Product } from "@/lib/types";
 
 interface TiktokCardProps {
+  product: Product;
   angle: CreativeAngle;
-  tone: string;
   onSave: (angle: CreativeAngle) => void;
   onRegenerate: (index: number) => void;
   onDiscard: (index: number) => void;
@@ -16,7 +15,7 @@ interface TiktokCardProps {
   index: number;
 }
 
-export function TiktokCard({ angle, tone, onSave, onRegenerate, onDiscard, onGenerateThumbnail, index }: TiktokCardProps) {
+export function TiktokCard({ product, angle, onSave, onRegenerate, onDiscard, onGenerateThumbnail, index }: TiktokCardProps) {
   const [isGeneratingThumbnail, setIsGeneratingThumbnail] = useState(false);
 
   const handleGenerateThumbnail = async () => {
@@ -32,9 +31,7 @@ export function TiktokCard({ angle, tone, onSave, onRegenerate, onDiscard, onGen
   return (
     <Card className="flex flex-col h-full bg-black text-white rounded-2xl overflow-hidden relative max-w-sm mx-auto">
       <CardContent className="p-0 group flex-1 flex flex-col relative">
-        {/* TikTok Video Container */}
         <div className="relative flex-1 bg-black">
-          {/* Video/Thumbnail */}
           {angle.thumbnail ? (
             <div className="relative h-full overflow-hidden rounded-lg">
               <img src={angle.thumbnail} alt={`Thumbnail for ${angle.headline}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
@@ -59,7 +56,6 @@ export function TiktokCard({ angle, tone, onSave, onRegenerate, onDiscard, onGen
             </div>
           )}
 
-          {/* TikTok Header */}
           <div className="absolute top-4 left-4 right-4 flex items-center justify-between">
             <div className="flex items-center space-x-2">
               <span className="text-white text-sm">For You</span>
@@ -67,7 +63,6 @@ export function TiktokCard({ angle, tone, onSave, onRegenerate, onDiscard, onGen
             </div>
           </div>
 
-          {/* Right Side Actions */}
           <div className="absolute right-4 bottom-20 flex flex-col items-center space-y-6">
             <div className="flex flex-col items-center">
               <div className="relative">
@@ -115,30 +110,25 @@ export function TiktokCard({ angle, tone, onSave, onRegenerate, onDiscard, onGen
               <MoreHorizontal className="h-6 w-6" />
             </Button>
 
-            {/* Spinning Music Icon */}
             <div className="w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center animate-spin-slow">
               <Music className="h-6 w-6 text-white" />
             </div>
           </div>
 
-          {/* Bottom Content */}
           <div className="absolute bottom-4 left-4 right-20">
             <div className="space-y-3">
-              {/* User Info */}
               <div className="flex items-center space-x-2">
-                <span className="text-white font-semibold">@yourbrand</span>
+                <span className="text-white font-semibold">{product.productName}</span>
                 <div className="w-1 h-1 bg-white rounded-full"></div>
                 <span className="text-gray-300 text-sm">Follow</span>
               </div>
 
-              {/* Caption */}
               <div className="space-y-2">
                 <p className="text-white font-semibold text-base leading-tight">{angle.headline}</p>
                 <p className="text-white text-sm leading-relaxed">{angle.hook}</p>
                 {angle.subheading && <p className="text-gray-300 text-sm">{angle.subheading}</p>}
               </div>
 
-              {/* Hashtags and CTA */}
               <div className="space-y-2">
                 <p className="text-blue-400 text-sm">#{angle.cta.replace(/\s+/g, "")} #fyp #trending</p>
                 <div className="text-xs text-gray-400">
@@ -146,16 +136,14 @@ export function TiktokCard({ angle, tone, onSave, onRegenerate, onDiscard, onGen
                 </div>
               </div>
 
-              {/* Music Info */}
               <div className="flex items-center space-x-2 text-sm">
                 <Music className="h-4 w-4 text-white" />
-                <span className="text-white">Original Audio - @yourbrand</span>
+                <span className="text-white">Original Audio - {product.productName}</span>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Action Buttons */}
         <div className="p-4 bg-gray-900 border-t border-gray-700">
           <div className="flex gap-2">
             <Button size="sm" onClick={() => onSave(angle)} className="flex-1 bg-gradient-to-r from-pink-500 to-red-500 hover:from-pink-600 hover:to-red-600 text-white border-none">

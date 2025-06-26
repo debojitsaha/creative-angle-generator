@@ -1,14 +1,13 @@
-import { Badge } from "@/components/ui/badge";
+import { useState } from "react";
+import { Image, Loader2, MessageCircle, RotateCcw, Save, Share, ThumbsUp, Trash2 } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { RotateCcw, Save, Trash2, Image, Loader2, ThumbsUp, MessageCircle, Share, MoreHorizontal } from "lucide-react";
-import type { CreativeAngle } from "@/lib/types";
-import { mTones } from "@/constants/tone";
-import { useState } from "react";
+import type { CreativeAngle, Product } from "@/lib/types";
 
 interface FacebookCardProps {
+  product: Product;
   angle: CreativeAngle;
-  tone: string;
   onSave: (angle: CreativeAngle) => void;
   onRegenerate: (index: number) => void;
   onDiscard: (index: number) => void;
@@ -16,7 +15,7 @@ interface FacebookCardProps {
   index: number;
 }
 
-export function FacebookCard({ angle, tone, onSave, onRegenerate, onDiscard, onGenerateThumbnail, index }: FacebookCardProps) {
+export function FacebookCard({ product, angle, onSave, onRegenerate, onDiscard, onGenerateThumbnail, index }: FacebookCardProps) {
   const [isGeneratingThumbnail, setIsGeneratingThumbnail] = useState(false);
 
   const handleGenerateThumbnail = async () => {
@@ -31,7 +30,6 @@ export function FacebookCard({ angle, tone, onSave, onRegenerate, onDiscard, onG
 
   return (
     <Card className="flex flex-col h-full bg-white border border-gray-200 rounded-lg overflow-hidden">
-      {/* Facebook Header */}
       <div className="p-3 border-b border-gray-100">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
@@ -39,7 +37,7 @@ export function FacebookCard({ angle, tone, onSave, onRegenerate, onDiscard, onG
               <span className="text-white font-semibold text-sm">FB</span>
             </div>
             <div>
-              <p className="font-semibold text-sm text-gray-900">Your Brand</p>
+              <p className="font-semibold text-sm text-gray-900">{product.productName}</p>
               <p className="text-xs text-gray-500">2h • 🌍</p>
             </div>
           </div>
@@ -47,7 +45,6 @@ export function FacebookCard({ angle, tone, onSave, onRegenerate, onDiscard, onG
       </div>
 
       <CardContent className="p-0 group flex-1 flex flex-col">
-        {/* Post Content */}
         <div className="p-3 space-y-3">
           <div className="space-y-2">
             <h3 className="font-semibold text-base text-gray-900">{angle.headline}</h3>
@@ -56,7 +53,6 @@ export function FacebookCard({ angle, tone, onSave, onRegenerate, onDiscard, onG
           </div>
         </div>
 
-        {/* Media */}
         {angle.thumbnail ? (
           <div className="relative overflow-hidden rounded-lg">
             <img src={angle.thumbnail} alt={`Thumbnail for ${angle.headline}`} className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300" />
@@ -75,7 +71,6 @@ export function FacebookCard({ angle, tone, onSave, onRegenerate, onDiscard, onG
           </div>
         )}
 
-        {/* Post Details */}
         <div className="p-3 space-y-3 flex-1">
           <div>
             <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Call to Action</p>
@@ -88,7 +83,6 @@ export function FacebookCard({ angle, tone, onSave, onRegenerate, onDiscard, onG
           </div>
         </div>
 
-        {/* Facebook Engagement Bar */}
         <div className="border-t border-gray-100">
           <div className="flex items-center justify-between px-3 py-2">
             <div className="flex items-center space-x-4">
@@ -119,7 +113,6 @@ export function FacebookCard({ angle, tone, onSave, onRegenerate, onDiscard, onG
           </div>
         </div>
 
-        {/* Action Buttons */}
         <div className="p-3 border-t border-gray-100 bg-gray-50">
           <div className="flex gap-2">
             <Button size="sm" onClick={() => onSave(angle)} className="flex-1 bg-blue-600 hover:bg-blue-700">

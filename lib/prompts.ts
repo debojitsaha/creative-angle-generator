@@ -20,7 +20,8 @@ The angles should be in a JSON array with the following structure:
     "hook": "string", 
     "subheading": "string",
     "cta": "string",
-    "insight": "string"
+    "insight": "string",
+    "platform": "string",
   }
 ]`;
 

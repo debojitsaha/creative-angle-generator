@@ -1,24 +1,29 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Download } from "lucide-react";
+import { Download, LayoutDashboard } from "lucide-react";
 import type { CreativeAngle } from "@/lib/types";
 import { SavedAngleCard } from "@/components/saved-angle-card/saved-angle-card";
 
 interface SavedAnglesProps {
   angles: CreativeAngle[];
+  onShiftToDashboard: () => void;
   onRemove: (id: string) => void;
   onExport: () => void;
 }
 
-export function SavedAngles({ angles, onRemove, onExport }: SavedAnglesProps) {
+export function SavedAngles({ angles, onRemove, onExport, onShiftToDashboard }: SavedAnglesProps) {
   return (
     <Card className="sticky top-4 h-full max-h-screen overflow-y-auto">
       <CardHeader>
-        <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
           <CardTitle className="text-lg">Saved Angles</CardTitle>
-          <Button size="sm" variant="outline" disabled={angles.length === 0} onClick={onExport}>
+          <Button size="sm" variant="outline" disabled={angles.length === 0} onClick={onExport} className="ml-auto">
             <Download className="h-3 w-3 mr-1" />
             Export
+          </Button>
+          <Button size="sm" variant="gradient" disabled={angles.length === 0} onClick={onShiftToDashboard}>
+            <LayoutDashboard className="h-3 w-3" />
+            View in Dashboard
           </Button>
         </div>
         <CardDescription>{angles.length} saved</CardDescription>

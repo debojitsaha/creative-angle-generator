@@ -3,18 +3,21 @@
 import { useState } from "react";
 import { generateCreativeAngles, generateCreativeAnglesThumbnail } from "@/app/actions";
 
+import { Skeleton } from "@/components/ui/skeleton";
 import { InputSection } from "@/app/_views/input-section";
 import { SavedAngles } from "@/app/_views/saved-angles";
 import { SuggestedQueries } from "@/app/_views/suggested-queries";
 import { GeneratedAngles } from "@/app/_views/generated-angles";
 
-import type { CreativeAngle } from "@/lib/types";
-import { Skeleton } from "@/components/ui/skeleton";
+import type { CreativeAngle, Product } from "@/lib/types";
 
 export function HomeView() {
-  const [productDescription, setProductDescription] = useState("");
-  const [platform, setPlatform] = useState("");
-  const [tone, setTone] = useState("");
+  const [product, setProduct] = useState<Product>({
+    productName: "",
+    productDescription: "",
+    platform: "",
+    tone: "",
+  });
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedAngles, setGeneratedAngles] = useState<CreativeAngle[]>([]);
   const [savedAngles, setSavedAngles] = useState<CreativeAngle[]>(() => {
@@ -27,13 +30,14 @@ export function HomeView() {
   const [showSuggestions, setShowSuggestions] = useState(true);
 
   const handleGenerate = async () => {
-    if (!productDescription.trim() || !platform || !tone) return;
+    if (!product.productName.trim() || !product.productDescription.trim() || !product.platform || !product.tone) return;
 
     setIsGenerating(true);
     setShowSuggestions(false);
 
     try {
-      const angles = await generateCreativeAngles({ productDescription, platform, tone });
+      const angles = await generateCreativeAngles(product);
+      console.log("angles", angles);
       setGeneratedAngles(angles);
 
       let updatedAngles = [...angles];
@@ -42,9 +46,7 @@ export function HomeView() {
       if (angles.length > 0) {
         try {
           const thumbnailUrl = await generateCreativeAnglesThumbnail({
-            productDescription,
-            platform,
-            tone,
+            product,
             angle: angles[0],
           });
 
@@ -68,9 +70,7 @@ export function HomeView() {
   const handleGenerateThumbnail = async (index: number, angle: CreativeAngle) => {
     try {
       const thumbnailUrl = await generateCreativeAnglesThumbnail({
-        productDescription,
-        platform,
-        tone,
+        product,
         angle,
       });
 
@@ -112,6 +112,10 @@ export function HomeView() {
     URL.revokeObjectURL(url);
   };
 
+  const handleShiftToDashboard = () => {
+    setGeneratedAngles(savedAngles);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-gray-50">
       <div className="container mx-auto px-4 py-8">
@@ -123,17 +127,22 @@ export function HomeView() {
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
           <div className="lg:col-span-3 space-y-6">
             <InputSection
-              productDescription={productDescription}
-              platform={platform}
-              tone={tone}
+              product={product}
               isGenerating={isGenerating}
-              onDescriptionChange={setProductDescription}
-              onPlatformChange={setPlatform}
-              onToneChange={setTone}
+              onProductNameChange={(value) => setProduct({ ...product, productName: value })}
+              onDescriptionChange={(value) => setProduct({ ...product, productDescription: value })}
+              onPlatformChange={(value) => setProduct({ ...product, platform: value })}
+              onToneChange={(value) => setProduct({ ...product, tone: value })}
               onGenerate={handleGenerate}
             />
 
-            {showSuggestions ? <SuggestedQueries onQuerySelect={setProductDescription} /> : null}
+            {showSuggestions ? (
+              <SuggestedQueries
+                onQuerySelect={(query) => {
+                  setProduct({ ...product, productName: query.productName, productDescription: query.productDescription });
+                }}
+              />
+            ) : null}
 
             {isGenerating ? (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -142,12 +151,12 @@ export function HomeView() {
                 ))}
               </div>
             ) : (
-              <GeneratedAngles angles={generatedAngles} platform={platform} tone={tone} onSave={handleSaveAngle} onRegenerate={handleRegenerateAngle} onDiscard={handleDiscardAngle} onGenerateThumbnail={handleGenerateThumbnail} />
+              <GeneratedAngles product={product} angles={generatedAngles} onSave={handleSaveAngle} onRegenerate={handleRegenerateAngle} onDiscard={handleDiscardAngle} onGenerateThumbnail={handleGenerateThumbnail} />
             )}
           </div>
 
           <div className="lg:col-span-2">
-            <SavedAngles angles={savedAngles} onRemove={handleRemoveSavedAngle} onExport={handleExportSaved} />
+            <SavedAngles angles={savedAngles} onRemove={handleRemoveSavedAngle} onExport={handleExportSaved} onShiftToDashboard={handleShiftToDashboard} />
           </div>
         </div>
       </div>

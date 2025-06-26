@@ -4,16 +4,10 @@ import { z } from "zod";
 import JsonSchema from "zod-to-json-schema";
 
 import { openaiClient } from "@/config/openai";
-import { CreativeAngleSchema, CreativeAngle } from "@/lib/types";
+import { CreativeAngleSchema, CreativeAngle, Product } from "@/lib/types";
 import { generateCreativeAnglesPrompt, generateThumbnailPrompt } from "@/lib/prompts";
 
-interface GenerateAnglesInput {
-  productDescription: string;
-  platform: string;
-  tone: string;
-}
-
-export async function generateCreativeAngles({ productDescription, platform, tone }: GenerateAnglesInput): Promise<CreativeAngle[]> {
+export async function generateCreativeAngles(product: Product): Promise<CreativeAngle[]> {
   try {
     const response = await openaiClient.chat.completions.create({
       model: "gpt-4o",
@@ -24,7 +18,7 @@ export async function generateCreativeAngles({ productDescription, platform, ton
         },
         {
           role: "user",
-          content: `Product Description: ${productDescription}, Platform: ${platform}, Tone: ${tone}`,
+          content: `Product Name: ${product.productName}, Product Description: ${product.productDescription}, Platform: ${product.platform}, Tone: ${product.tone}`,
         },
       ],
       response_format: {
@@ -52,28 +46,11 @@ export async function generateCreativeAngles({ productDescription, platform, ton
     return angles;
   } catch (error) {
     console.error("Error generating creative angles:", error);
-
-    // Return fallback angles if AI generation fails
-    return [
-      {
-        headline: "Transform Your Workflow Today",
-        hook: "Stop wasting time on manual tasks",
-        subheading: "Join thousands who've already made the switch",
-        cta: "Start Your Free Trial",
-        insight: "Appeals to efficiency-focused professionals",
-      },
-      {
-        headline: "The Secret Top Brands Use",
-        hook: "What industry leaders don't want you to know",
-        subheading: "Get insider access to proven strategies",
-        cta: "Unlock the Secret",
-        insight: "Leverages curiosity and exclusivity",
-      },
-    ];
+    throw new Error("Failed to generate creative angles");
   }
 }
 
-export async function generateCreativeAnglesThumbnail({ productDescription, platform, tone, angle }: { productDescription: string; platform: string; tone: string; angle: CreativeAngle }): Promise<string> {
+export async function generateCreativeAnglesThumbnail({ product, angle }: { product: Product; angle: CreativeAngle }): Promise<string> {
   try {
     // Step 1: Generate image prompt using GPT-4o
     const promptResponse = await openaiClient.chat.completions.create({
@@ -85,9 +62,10 @@ export async function generateCreativeAnglesThumbnail({ productDescription, plat
         },
         {
           role: "user",
-          content: `Product Description: ${productDescription}
-          Platform: ${platform}
-          Tone: ${tone}
+          content: `Product Name: ${product.productName}
+          Product Description: ${product.productDescription}
+          Platform: ${product.platform}
+          Tone: ${product.tone}
           Creative Angle:
           - Headline: ${angle.headline}
           - Hook: ${angle.hook}

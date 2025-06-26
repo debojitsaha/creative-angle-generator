@@ -1,14 +1,13 @@
-import { Badge } from "@/components/ui/badge";
+import { useState } from "react";
+import { RotateCcw, Save, Trash2, Image, Loader2, Heart, MessageCircle, Repeat2, Share, MoreHorizontal } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { RotateCcw, Save, Trash2, Image, Loader2, Heart, MessageCircle, Repeat2, Share, MoreHorizontal } from "lucide-react";
-import type { CreativeAngle } from "@/lib/types";
-import { mTones } from "@/constants/tone";
-import { useState } from "react";
+import type { CreativeAngle, Product } from "@/lib/types";
 
 interface TwitterCardProps {
+  product: Product;
   angle: CreativeAngle;
-  tone: string;
   onSave: (angle: CreativeAngle) => void;
   onRegenerate: (index: number) => void;
   onDiscard: (index: number) => void;
@@ -16,7 +15,7 @@ interface TwitterCardProps {
   index: number;
 }
 
-export function TwitterCard({ angle, tone, onSave, onRegenerate, onDiscard, onGenerateThumbnail, index }: TwitterCardProps) {
+export function TwitterCard({ product, angle, onSave, onRegenerate, onDiscard, onGenerateThumbnail, index }: TwitterCardProps) {
   const [isGeneratingThumbnail, setIsGeneratingThumbnail] = useState(false);
 
   const handleGenerateThumbnail = async () => {
@@ -35,7 +34,6 @@ export function TwitterCard({ angle, tone, onSave, onRegenerate, onDiscard, onGe
   return (
     <Card className="flex flex-col h-full bg-white border border-gray-200 rounded-xl overflow-hidden hover:bg-gray-50 transition-colors">
       <CardContent className="p-0 group flex-1 flex flex-col">
-        {/* Twitter Header */}
         <div className="p-4 flex items-start space-x-3">
           <div className="w-12 h-12 bg-black rounded-full flex items-center justify-center flex-shrink-0">
             <span className="text-white font-bold text-lg">𝕏</span>
@@ -44,17 +42,16 @@ export function TwitterCard({ angle, tone, onSave, onRegenerate, onDiscard, onGe
           <div className="flex-1 min-w-0">
             <div className="flex items-center space-x-2 mb-1">
               <div className="flex items-center space-x-1">
-                <p className="font-bold text-base text-gray-900">Your Brand</p>
+                <p className="font-bold text-base text-gray-900">{product.productName}</p>
                 <div className="w-5 h-5 bg-blue-500 rounded-full flex items-center justify-center">
                   <span className="text-white text-xs">✓</span>
                 </div>
               </div>
-              <span className="text-gray-500">@yourbrand</span>
+              <span className="text-gray-500">{product.productName}</span>
               <span className="text-gray-500">•</span>
               <span className="text-gray-500 text-sm">2h</span>
             </div>
 
-            {/* Tweet Content */}
             <div className="space-y-3">
               <div className="space-y-2">
                 <h3 className="font-bold text-xl text-gray-900 leading-tight">{angle.headline}</h3>
@@ -62,7 +59,6 @@ export function TwitterCard({ angle, tone, onSave, onRegenerate, onDiscard, onGe
                 {angle.subheading && <p className="text-base text-gray-700 leading-relaxed">{angle.subheading}</p>}
               </div>
 
-              {/* Media */}
               {angle.thumbnail ? (
                 <div className="rounded-2xl overflow-hidden border border-gray-200 mt-3">
                   <img src={angle.thumbnail} alt={`Thumbnail for ${angle.headline}`} className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300" />
@@ -81,7 +77,6 @@ export function TwitterCard({ angle, tone, onSave, onRegenerate, onDiscard, onGe
                 </div>
               )}
 
-              {/* Tweet Details */}
               <div className="space-y-2 pt-2">
                 <div className="text-blue-500 font-medium">{angle.cta}</div>
 
@@ -96,7 +91,6 @@ export function TwitterCard({ angle, tone, onSave, onRegenerate, onDiscard, onGe
               </div>
             </div>
 
-            {/* Twitter Engagement */}
             <div className="flex items-center justify-between mt-4 max-w-md">
               <button className="flex items-center space-x-2 text-gray-500 hover:text-blue-500 transition-colors group">
                 <div className="p-2 rounded-full group-hover:bg-blue-50 transition-colors">
@@ -132,7 +126,6 @@ export function TwitterCard({ angle, tone, onSave, onRegenerate, onDiscard, onGe
           </div>
         </div>
 
-        {/* Action Buttons */}
         <div className="p-4 border-t border-gray-100 bg-gray-50 mt-auto">
           <div className="flex gap-2">
             <Button size="sm" onClick={() => onSave(angle)} className="flex-1 bg-black hover:bg-gray-800 text-white">

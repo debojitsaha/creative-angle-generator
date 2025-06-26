@@ -1,14 +1,13 @@
-import { Badge } from "@/components/ui/badge";
+import { useState } from "react";
+import { RotateCcw, Save, Trash2, Image, Loader2, ThumbsUp, MessageCircle, Repeat2, Send, MoreHorizontal } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { RotateCcw, Save, Trash2, Image, Loader2, ThumbsUp, MessageCircle, Repeat2, Send, MoreHorizontal } from "lucide-react";
-import type { CreativeAngle } from "@/lib/types";
-import { mTones } from "@/constants/tone";
-import { useState } from "react";
+import type { CreativeAngle, Product } from "@/lib/types";
 
 interface LinkedinCardProps {
+  product: Product;
   angle: CreativeAngle;
-  tone: string;
   onSave: (angle: CreativeAngle) => void;
   onRegenerate: (index: number) => void;
   onDiscard: (index: number) => void;
@@ -16,7 +15,7 @@ interface LinkedinCardProps {
   index: number;
 }
 
-export function LinkedinCard({ angle, tone, onSave, onRegenerate, onDiscard, onGenerateThumbnail, index }: LinkedinCardProps) {
+export function LinkedinCard({ product, angle, onSave, onRegenerate, onDiscard, onGenerateThumbnail, index }: LinkedinCardProps) {
   const [isGeneratingThumbnail, setIsGeneratingThumbnail] = useState(false);
 
   const handleGenerateThumbnail = async () => {
@@ -31,7 +30,6 @@ export function LinkedinCard({ angle, tone, onSave, onRegenerate, onDiscard, onG
 
   return (
     <Card className="flex flex-col h-full bg-white border border-gray-200 rounded-lg overflow-hidden">
-      {/* LinkedIn Header */}
       <div className="p-4 border-b border-gray-100">
         <div className="flex items-start justify-between">
           <div className="flex items-start space-x-3">
@@ -40,7 +38,7 @@ export function LinkedinCard({ angle, tone, onSave, onRegenerate, onDiscard, onG
             </div>
             <div className="flex-1">
               <div className="flex items-center space-x-2">
-                <p className="font-semibold text-base text-gray-900">Your Brand</p>
+                <p className="font-semibold text-base text-gray-900">{product.productName}</p>
                 <span className="text-blue-600">•</span>
                 <span className="text-blue-600 text-sm font-medium">1st</span>
               </div>
@@ -55,7 +53,6 @@ export function LinkedinCard({ angle, tone, onSave, onRegenerate, onDiscard, onG
       </div>
 
       <CardContent className="p-0 group flex-1 flex flex-col">
-        {/* Post Content */}
         <div className="px-4 py-3 space-y-3">
           <div className="space-y-3">
             <h3 className="font-semibold text-lg text-gray-900 leading-tight">{angle.headline}</h3>
@@ -64,7 +61,6 @@ export function LinkedinCard({ angle, tone, onSave, onRegenerate, onDiscard, onG
           </div>
         </div>
 
-        {/* Media */}
         {angle.thumbnail ? (
           <div className="relative overflow-hidden rounded-lg">
             <img src={angle.thumbnail} alt={`Thumbnail for ${angle.headline}`} className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300" />
@@ -83,7 +79,6 @@ export function LinkedinCard({ angle, tone, onSave, onRegenerate, onDiscard, onG
           </div>
         )}
 
-        {/* Post Details */}
         <div className="px-4 py-3 space-y-4 flex-1">
           <div className="space-y-3">
             <div>
@@ -98,7 +93,6 @@ export function LinkedinCard({ angle, tone, onSave, onRegenerate, onDiscard, onG
           </div>
         </div>
 
-        {/* LinkedIn Engagement */}
         <div className="border-t border-gray-100">
           <div className="px-4 py-2 flex items-center justify-between text-xs text-gray-500">
             <div className="flex items-center space-x-4">
@@ -133,7 +127,6 @@ export function LinkedinCard({ angle, tone, onSave, onRegenerate, onDiscard, onG
           </div>
         </div>
 
-        {/* Action Buttons */}
         <div className="p-4 border-t border-gray-100 bg-gray-50">
           <div className="flex gap-2">
             <Button size="sm" onClick={() => onSave(angle)} className="flex-1 bg-blue-600 hover:bg-blue-700">

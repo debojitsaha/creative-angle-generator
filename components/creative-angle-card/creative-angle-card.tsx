@@ -1,13 +1,10 @@
+import { useState } from "react";
+import { RotateCcw, Save, Trash2, Image, Loader2 } from "lucide-react";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { RotateCcw, Save, Trash2, Image, Loader2 } from "lucide-react";
-import type { CreativeAngle } from "@/lib/types";
-import { mPlatforms } from "@/constants/platform";
-import { mTones } from "@/constants/tone";
-import { useState } from "react";
 
-// Import platform-specific card components
 import { FacebookCard } from "./facebook-card";
 import { InstagramCard } from "./instagram-card";
 import { LinkedinCard } from "./linkedin-card";
@@ -15,10 +12,13 @@ import { TwitterCard } from "./twitter-card";
 import { GoogleCard } from "./google-card";
 import { TiktokCard } from "./tiktok-card";
 
+import type { CreativeAngle, Product } from "@/lib/types";
+import { mPlatforms } from "@/constants/platform";
+import { mTones } from "@/constants/tone";
+
 interface CreativeAngleCardProps {
+  product: Product;
   angle: CreativeAngle;
-  platform: string;
-  tone: string;
   onSave: (angle: CreativeAngle) => void;
   onRegenerate: (index: number) => void;
   onDiscard: (index: number) => void;
@@ -26,29 +26,27 @@ interface CreativeAngleCardProps {
   index: number;
 }
 
-export function CreativeAngleCard({ angle, platform, tone, onSave, onRegenerate, onDiscard, onGenerateThumbnail, index }: CreativeAngleCardProps) {
-  // Switch between platform-specific card components
-  switch (platform) {
+export function CreativeAngleCard({ product, angle, onSave, onRegenerate, onDiscard, onGenerateThumbnail, index }: CreativeAngleCardProps) {
+  switch (angle.platform) {
     case "facebook":
-      return <FacebookCard angle={angle} tone={tone} onSave={onSave} onRegenerate={onRegenerate} onDiscard={onDiscard} onGenerateThumbnail={onGenerateThumbnail} index={index} />;
+      return <FacebookCard product={product} angle={angle} onSave={onSave} onRegenerate={onRegenerate} onDiscard={onDiscard} onGenerateThumbnail={onGenerateThumbnail} index={index} />;
     case "instagram":
-      return <InstagramCard angle={angle} tone={tone} onSave={onSave} onRegenerate={onRegenerate} onDiscard={onDiscard} onGenerateThumbnail={onGenerateThumbnail} index={index} />;
+      return <InstagramCard product={product} angle={angle} onSave={onSave} onRegenerate={onRegenerate} onDiscard={onDiscard} onGenerateThumbnail={onGenerateThumbnail} index={index} />;
     case "linkedin":
-      return <LinkedinCard angle={angle} tone={tone} onSave={onSave} onRegenerate={onRegenerate} onDiscard={onDiscard} onGenerateThumbnail={onGenerateThumbnail} index={index} />;
+      return <LinkedinCard product={product} angle={angle} onSave={onSave} onRegenerate={onRegenerate} onDiscard={onDiscard} onGenerateThumbnail={onGenerateThumbnail} index={index} />;
     case "twitter":
-      return <TwitterCard angle={angle} tone={tone} onSave={onSave} onRegenerate={onRegenerate} onDiscard={onDiscard} onGenerateThumbnail={onGenerateThumbnail} index={index} />;
+      return <TwitterCard product={product} angle={angle} onSave={onSave} onRegenerate={onRegenerate} onDiscard={onDiscard} onGenerateThumbnail={onGenerateThumbnail} index={index} />;
     case "google":
-      return <GoogleCard angle={angle} tone={tone} onSave={onSave} onRegenerate={onRegenerate} onDiscard={onDiscard} onGenerateThumbnail={onGenerateThumbnail} index={index} />;
+      return <GoogleCard product={product} angle={angle} onSave={onSave} onRegenerate={onRegenerate} onDiscard={onDiscard} onGenerateThumbnail={onGenerateThumbnail} index={index} />;
     case "tiktok":
-      return <TiktokCard angle={angle} tone={tone} onSave={onSave} onRegenerate={onRegenerate} onDiscard={onDiscard} onGenerateThumbnail={onGenerateThumbnail} index={index} />;
+      return <TiktokCard product={product} angle={angle} onSave={onSave} onRegenerate={onRegenerate} onDiscard={onDiscard} onGenerateThumbnail={onGenerateThumbnail} index={index} />;
     default:
-      // Default card component (original design)
-      return <DefaultCard angle={angle} platform={platform} tone={tone} onSave={onSave} onRegenerate={onRegenerate} onDiscard={onDiscard} onGenerateThumbnail={onGenerateThumbnail} index={index} />;
+      return <DefaultCard product={product} angle={angle} onSave={onSave} onRegenerate={onRegenerate} onDiscard={onDiscard} onGenerateThumbnail={onGenerateThumbnail} index={index} />;
   }
 }
 
 // Default card component (original design)
-function DefaultCard({ angle, platform, tone, onSave, onRegenerate, onDiscard, onGenerateThumbnail, index }: CreativeAngleCardProps) {
+function DefaultCard({ product, angle, onSave, onRegenerate, onDiscard, onGenerateThumbnail, index }: CreativeAngleCardProps) {
   const [isGeneratingThumbnail, setIsGeneratingThumbnail] = useState(false);
 
   const handleGenerateThumbnail = async () => {
@@ -65,12 +63,12 @@ function DefaultCard({ angle, platform, tone, onSave, onRegenerate, onDiscard, o
     <Card className="flex flex-col h-full">
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between">
-          {platform ? (
+          {product.platform ? (
             <Badge variant="secondary" className="mb-2">
-              {mPlatforms.find((p) => p.value === platform)?.label}
+              {mPlatforms.find((p) => p.value === product.platform)?.label}
             </Badge>
           ) : null}
-          {tone ? <Badge variant="outline">{mTones.find((t) => t.value === tone)?.label}</Badge> : null}
+          {product.tone ? <Badge variant="outline">{mTones.find((t) => t.value === product.tone)?.label}</Badge> : null}
         </div>
         <CardTitle className="text-lg leading-tight">{angle.headline}</CardTitle>
       </CardHeader>

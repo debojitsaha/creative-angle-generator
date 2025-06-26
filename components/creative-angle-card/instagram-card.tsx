@@ -1,14 +1,13 @@
-import { Badge } from "@/components/ui/badge";
+import { useState } from "react";
+import { RotateCcw, Save, Trash2, Image, Loader2, Heart, MessageCircle, Send, Bookmark } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { RotateCcw, Save, Trash2, Image, Loader2, Heart, MessageCircle, Send, Bookmark, MoreHorizontal } from "lucide-react";
-import type { CreativeAngle } from "@/lib/types";
-import { mTones } from "@/constants/tone";
-import { useState } from "react";
+import type { CreativeAngle, Product } from "@/lib/types";
 
 interface InstagramCardProps {
+  product: Product;
   angle: CreativeAngle;
-  tone: string;
   onSave: (angle: CreativeAngle) => void;
   onRegenerate: (index: number) => void;
   onDiscard: (index: number) => void;
@@ -16,7 +15,7 @@ interface InstagramCardProps {
   index: number;
 }
 
-export function InstagramCard({ angle, tone, onSave, onRegenerate, onDiscard, onGenerateThumbnail, index }: InstagramCardProps) {
+export function InstagramCard({ product, angle, onSave, onRegenerate, onDiscard, onGenerateThumbnail, index }: InstagramCardProps) {
   const [isGeneratingThumbnail, setIsGeneratingThumbnail] = useState(false);
 
   const handleGenerateThumbnail = async () => {
@@ -31,7 +30,6 @@ export function InstagramCard({ angle, tone, onSave, onRegenerate, onDiscard, on
 
   return (
     <Card className="flex flex-col h-full bg-white border border-gray-200 rounded-lg overflow-hidden max-w-md mx-auto">
-      {/* Instagram Header */}
       <div className="p-3 flex items-center space-x-3">
         <div className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 p-0.5">
           <div className="w-full h-full bg-white rounded-full flex items-center justify-center">
@@ -39,13 +37,12 @@ export function InstagramCard({ angle, tone, onSave, onRegenerate, onDiscard, on
           </div>
         </div>
         <div>
-          <p className="font-semibold text-sm text-gray-900">yourbrand</p>
+          <p className="font-semibold text-sm text-gray-900">{product.productName}</p>
           <p className="text-xs text-gray-500">Sponsored</p>
         </div>
       </div>
 
       <CardContent className="p-0 group flex-1 flex flex-col">
-        {/* Instagram Square Image */}
         {angle.thumbnail ? (
           <div className="aspect-square relative overflow-hidden rounded-lg">
             <img src={angle.thumbnail} alt={`Thumbnail for ${angle.headline}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
@@ -64,7 +61,6 @@ export function InstagramCard({ angle, tone, onSave, onRegenerate, onDiscard, on
           </div>
         )}
 
-        {/* Instagram Actions */}
         <div className="p-3">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center space-x-4">
@@ -88,7 +84,7 @@ export function InstagramCard({ angle, tone, onSave, onRegenerate, onDiscard, on
 
             <div className="space-y-1">
               <div className="flex items-start space-x-2">
-                <span className="font-semibold text-sm text-gray-900">yourbrand</span>
+                <span className="font-semibold text-sm text-gray-900">{product.productName}</span>
                 <div className="flex-1">
                   <p className="text-sm text-gray-900">{angle.headline}</p>
                 </div>
@@ -114,7 +110,6 @@ export function InstagramCard({ angle, tone, onSave, onRegenerate, onDiscard, on
           </div>
         </div>
 
-        {/* Action Buttons */}
         <div className="p-3 bg-gray-50 mt-auto">
           <div className="flex gap-2">
             <Button size="sm" onClick={() => onSave(angle)} className="flex-1 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600">

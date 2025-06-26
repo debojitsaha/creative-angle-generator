@@ -1,19 +1,18 @@
 "use client";
 
 import { CreativeAngleCard } from "@/components/creative-angle-card/creative-angle-card";
-import type { CreativeAngle } from "@/lib/types";
+import type { CreativeAngle, Product } from "@/lib/types";
 
 interface GeneratedAnglesProps {
+  product: Product;
   angles: CreativeAngle[];
-  platform: string;
-  tone: string;
   onSave: (angle: CreativeAngle) => void;
   onRegenerate: (index: number) => void;
   onDiscard: (index: number) => void;
   onGenerateThumbnail: (index: number, angle: CreativeAngle) => Promise<void>;
 }
 
-export function GeneratedAngles({ angles, platform, tone, onSave, onRegenerate, onDiscard, onGenerateThumbnail }: GeneratedAnglesProps) {
+export function GeneratedAngles({ product, angles, onSave, onRegenerate, onDiscard, onGenerateThumbnail }: GeneratedAnglesProps) {
   if (!angles || angles.length === 0) return null;
 
   return (
@@ -22,7 +21,7 @@ export function GeneratedAngles({ angles, platform, tone, onSave, onRegenerate, 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {angles.map((angle, index) => (
           <div key={index} className="h-full">
-            <CreativeAngleCard angle={angle} platform={platform} tone={tone} onSave={onSave} onRegenerate={onRegenerate} onDiscard={onDiscard} onGenerateThumbnail={onGenerateThumbnail} index={index} />
+            <CreativeAngleCard product={product} angle={angle} onSave={onSave} onRegenerate={onRegenerate} onDiscard={onDiscard} onGenerateThumbnail={onGenerateThumbnail} index={index} />
           </div>
         ))}
       </div>

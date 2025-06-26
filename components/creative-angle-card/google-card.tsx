@@ -1,14 +1,13 @@
-import { Badge } from "@/components/ui/badge";
+import { useState } from "react";
+import { ExternalLink, Image, Loader2, RotateCcw, Save, Star, Trash2 } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { RotateCcw, Save, Trash2, Image, Loader2, ExternalLink, Star } from "lucide-react";
-import type { CreativeAngle } from "@/lib/types";
-import { mTones } from "@/constants/tone";
-import { useState } from "react";
+import type { CreativeAngle, Product } from "@/lib/types";
 
 interface GoogleCardProps {
+  product: Product;
   angle: CreativeAngle;
-  tone: string;
   onSave: (angle: CreativeAngle) => void;
   onRegenerate: (index: number) => void;
   onDiscard: (index: number) => void;
@@ -16,7 +15,7 @@ interface GoogleCardProps {
   index: number;
 }
 
-export function GoogleCard({ angle, tone, onSave, onRegenerate, onDiscard, onGenerateThumbnail, index }: GoogleCardProps) {
+export function GoogleCard({ product, angle, onSave, onRegenerate, onDiscard, onGenerateThumbnail, index }: GoogleCardProps) {
   const [isGeneratingThumbnail, setIsGeneratingThumbnail] = useState(false);
 
   const handleGenerateThumbnail = async () => {
@@ -32,7 +31,6 @@ export function GoogleCard({ angle, tone, onSave, onRegenerate, onDiscard, onGen
   return (
     <Card className="flex flex-col h-full bg-white border border-gray-200 rounded-lg overflow-hidden">
       <CardContent className="p-0 group flex-1 flex flex-col">
-        {/* Google Ad Header */}
         <div className="p-4">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center space-x-2">
@@ -44,29 +42,24 @@ export function GoogleCard({ angle, tone, onSave, onRegenerate, onDiscard, onGen
             </p>
           </div>
 
-          {/* Google Ad Content */}
           <div className="space-y-3">
-            {/* URL */}
             <div className="flex items-center space-x-2">
               <div className="w-4 h-4 bg-gray-300 rounded-sm flex items-center justify-center">
                 <div className="w-2 h-2 bg-white rounded-sm"></div>
               </div>
-              <p className="text-sm text-green-700">yourbrand.com</p>
+              <p className="text-sm text-green-700">{product.productName}.com</p>
               <ExternalLink className="h-3 w-3 text-gray-400" />
             </div>
 
-            {/* Headline */}
             <div>
               <h3 className="text-xl text-blue-600 hover:underline cursor-pointer font-normal leading-tight">{angle.headline}</h3>
             </div>
 
-            {/* Description */}
             <div className="space-y-2">
               <p className="text-sm text-gray-700 leading-relaxed">{angle.hook}</p>
               {angle.subheading && <p className="text-sm text-gray-600 leading-relaxed">{angle.subheading}</p>}
             </div>
 
-            {/* Media */}
             {angle.thumbnail ? (
               <div className="rounded-lg overflow-hidden border border-gray-200 mt-3">
                 <img src={angle.thumbnail} alt={`Thumbnail for ${angle.headline}`} className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300" />
@@ -85,7 +78,6 @@ export function GoogleCard({ angle, tone, onSave, onRegenerate, onDiscard, onGen
               </div>
             )}
 
-            {/* Sitelinks */}
             <div className="pt-2">
               <div className="flex flex-wrap gap-x-6 gap-y-1">
                 <a href="#" className="text-sm text-blue-600 hover:underline">
@@ -103,7 +95,6 @@ export function GoogleCard({ angle, tone, onSave, onRegenerate, onDiscard, onGen
               </div>
             </div>
 
-            {/* Call to Action */}
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mt-4">
               <div className="flex items-center justify-between">
                 <div className="flex-1">
@@ -116,7 +107,6 @@ export function GoogleCard({ angle, tone, onSave, onRegenerate, onDiscard, onGen
               </div>
             </div>
 
-            {/* Target Audience Info */}
             <div className="border-t border-gray-100 pt-3 mt-4">
               <div className="space-y-2">
                 <div>
@@ -128,7 +118,6 @@ export function GoogleCard({ angle, tone, onSave, onRegenerate, onDiscard, onGen
           </div>
         </div>
 
-        {/* Google Reviews Section */}
         <div className="border-t border-gray-100 p-4 bg-gray-50">
           <div className="space-y-2">
             <div className="flex items-center space-x-2">
@@ -143,7 +132,6 @@ export function GoogleCard({ angle, tone, onSave, onRegenerate, onDiscard, onGen
           </div>
         </div>
 
-        {/* Action Buttons */}
         <div className="p-4 border-t border-gray-100 bg-white">
           <div className="flex gap-2">
             <Button size="sm" onClick={() => onSave(angle)} className="flex-1 bg-blue-600 hover:bg-blue-700">
