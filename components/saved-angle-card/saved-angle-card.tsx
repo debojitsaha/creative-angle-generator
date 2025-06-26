@@ -17,7 +17,10 @@ export function SavedAngleCard({ angle, onRemove }: SavedAngleCardProps) {
         {angle.thumbnail ? (
           <img src={angle.thumbnail} alt={angle.headline} className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300" />
         ) : (
-          <Image className="h-18 w-18 text-gray-400 bg-gray-100 rounded-lg" />
+          <div className="text-center text-gray-500">
+            <Image className="mx-auto h-16 w-16 mb-2 text-gray-300" />
+            <p className="text-sm">No image yet</p>
+          </div>
         )}
       </div>
       <div className="flex flex-col items-start gap-px flex-1">

@@ -7,6 +7,14 @@ import { mPlatforms } from "@/constants/platform";
 import { mTones } from "@/constants/tone";
 import { useState } from "react";
 
+// Import platform-specific card components
+import { FacebookCard } from "./facebook-card";
+import { InstagramCard } from "./instagram-card";
+import { LinkedinCard } from "./linkedin-card";
+import { TwitterCard } from "./twitter-card";
+import { GoogleCard } from "./google-card";
+import { TiktokCard } from "./tiktok-card";
+
 interface CreativeAngleCardProps {
   angle: CreativeAngle;
   platform: string;
@@ -19,6 +27,28 @@ interface CreativeAngleCardProps {
 }
 
 export function CreativeAngleCard({ angle, platform, tone, onSave, onRegenerate, onDiscard, onGenerateThumbnail, index }: CreativeAngleCardProps) {
+  // Switch between platform-specific card components
+  switch (platform) {
+    case "facebook":
+      return <FacebookCard angle={angle} tone={tone} onSave={onSave} onRegenerate={onRegenerate} onDiscard={onDiscard} onGenerateThumbnail={onGenerateThumbnail} index={index} />;
+    case "instagram":
+      return <InstagramCard angle={angle} tone={tone} onSave={onSave} onRegenerate={onRegenerate} onDiscard={onDiscard} onGenerateThumbnail={onGenerateThumbnail} index={index} />;
+    case "linkedin":
+      return <LinkedinCard angle={angle} tone={tone} onSave={onSave} onRegenerate={onRegenerate} onDiscard={onDiscard} onGenerateThumbnail={onGenerateThumbnail} index={index} />;
+    case "twitter":
+      return <TwitterCard angle={angle} tone={tone} onSave={onSave} onRegenerate={onRegenerate} onDiscard={onDiscard} onGenerateThumbnail={onGenerateThumbnail} index={index} />;
+    case "google":
+      return <GoogleCard angle={angle} tone={tone} onSave={onSave} onRegenerate={onRegenerate} onDiscard={onDiscard} onGenerateThumbnail={onGenerateThumbnail} index={index} />;
+    case "tiktok":
+      return <TiktokCard angle={angle} tone={tone} onSave={onSave} onRegenerate={onRegenerate} onDiscard={onDiscard} onGenerateThumbnail={onGenerateThumbnail} index={index} />;
+    default:
+      // Default card component (original design)
+      return <DefaultCard angle={angle} platform={platform} tone={tone} onSave={onSave} onRegenerate={onRegenerate} onDiscard={onDiscard} onGenerateThumbnail={onGenerateThumbnail} index={index} />;
+  }
+}
+
+// Default card component (original design)
+function DefaultCard({ angle, platform, tone, onSave, onRegenerate, onDiscard, onGenerateThumbnail, index }: CreativeAngleCardProps) {
   const [isGeneratingThumbnail, setIsGeneratingThumbnail] = useState(false);
 
   const handleGenerateThumbnail = async () => {

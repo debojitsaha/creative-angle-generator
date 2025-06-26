@@ -16,13 +16,14 @@ export function HomeView() {
   const [platform, setPlatform] = useState("");
   const [tone, setTone] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
-  const [generatedAngles, setGeneratedAngles] = useState<CreativeAngle[]>(() => {
+  const [generatedAngles, setGeneratedAngles] = useState<CreativeAngle[]>([]);
+  const [savedAngles, setSavedAngles] = useState<CreativeAngle[]>(() => {
     if (typeof window !== "undefined") {
-      const stored = localStorage.getItem("generatedAngles");
+      const stored = localStorage.getItem("savedAngles");
       return stored ? JSON.parse(stored) : [];
     }
+    return [];
   });
-  const [savedAngles, setSavedAngles] = useState<CreativeAngle[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(true);
 
   const handleGenerate = async () => {
@@ -33,7 +34,6 @@ export function HomeView() {
 
     try {
       const angles = await generateCreativeAngles({ productDescription, platform, tone });
-      console.log("Generated angles", angles);
       setGeneratedAngles(angles);
 
       let updatedAngles = [...angles];
@@ -54,15 +54,10 @@ export function HomeView() {
         }
       }
 
-      // Handle localStorage update — prepend to existing
       const stored = localStorage.getItem("generatedAngles");
-      console.log("stored", stored);
       const existing = stored ? JSON.parse(stored) : [];
-      console.log("existing", existing);
       const newList = [...updatedAngles, ...existing];
-      console.log("newList", newList);  
       setGeneratedAngles(newList);
-      localStorage.setItem("generatedAngles", JSON.stringify(newList));
     } catch (error) {
       console.error("Error generating angles:", error);
     } finally {
@@ -79,14 +74,7 @@ export function HomeView() {
         angle,
       });
 
-      // Compute the updated angles list
-      const updatedAngles = generatedAngles.map((a, i) => (i === index ? { ...a, thumbnail: thumbnailUrl } : a));
-
-      // Update the state
-      setGeneratedAngles(updatedAngles);
-
-      // Update localStorage with the new state
-      localStorage.setItem("generatedAngles", JSON.stringify(updatedAngles));
+      setGeneratedAngles((prev) => prev.map((a, i) => (i === index ? { ...a, thumbnail: thumbnailUrl } : a)));
     } catch (error) {
       console.error("Error generating thumbnail:", error);
       throw error; // Re-throw to handle in the component
@@ -95,6 +83,7 @@ export function HomeView() {
 
   const handleSaveAngle = (angle: CreativeAngle) => {
     setSavedAngles((prev) => [...prev, { ...angle, id: Date.now().toString() }]);
+    localStorage.setItem("savedAngles", JSON.stringify([...savedAngles, { ...angle, id: Date.now().toString() }]));
   };
 
   const handleRegenerateAngle = (index: number) => {
@@ -108,6 +97,7 @@ export function HomeView() {
 
   const handleRemoveSavedAngle = (id: string) => {
     setSavedAngles((prev) => prev.filter((angle) => angle.id !== id));
+    localStorage.setItem("savedAngles", JSON.stringify(savedAngles.filter((angle) => angle.id !== id)));
   };
 
   const handleExportSaved = () => {
@@ -122,10 +112,8 @@ export function HomeView() {
     URL.revokeObjectURL(url);
   };
 
-  const handleSuggestedQuery = (query: string) => setProductDescription(query);
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-gray-50">
       <div className="container mx-auto px-4 py-8">
         <div className="text-center mb-8 flex flex-col items-center gap-1">
           <h1 className="text-3xl font-bold text-gray-900">Creative Angle Generator</h1>
@@ -145,7 +133,7 @@ export function HomeView() {
               onGenerate={handleGenerate}
             />
 
-            {showSuggestions ? <SuggestedQueries onQuerySelect={handleSuggestedQuery} /> : null}
+            {showSuggestions ? <SuggestedQueries onQuerySelect={setProductDescription} /> : null}
 
             {isGenerating ? (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
