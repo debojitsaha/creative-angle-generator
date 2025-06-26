@@ -21,8 +21,8 @@ export function InputSection({ productDescription, platform, tone, isGenerating,
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Sparkles className="h-5 w-5 text-purple-600" />
+        <CardTitle className="inline-flex items-center gap-2 text-xl">
+          <Sparkles className="h-6 w-6 text-purple-600" />
           Generate Creative Angles
         </CardTitle>
         <CardDescription>Describe your product and we'll generate compelling marketing angles</CardDescription>
@@ -72,18 +72,9 @@ export function InputSection({ productDescription, platform, tone, isGenerating,
           </div>
         </div>
 
-        <Button onClick={onGenerate} disabled={!productDescription.trim() || !platform || !tone || isGenerating} className="w-full bg-purple-600 hover:bg-purple-700">
-          {isGenerating ? (
-            <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Generating...
-            </>
-          ) : (
-            <>
-              <Sparkles className="mr-2 h-4 w-4" />
-              Generate Creative Angles
-            </>
-          )}
+        <Button size="lg" onClick={onGenerate} disabled={!productDescription.trim() || !platform || !tone || isGenerating} className="w-full">
+          {isGenerating ? <Loader2 className="h-6 w-6 animate-spin" /> : <Sparkles className="h-6 w-6" />}
+          {isGenerating ? "Generating..." : "Generate Creative Angles"}
         </Button>
       </CardContent>
     </Card>
