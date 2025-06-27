@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { Switch } from "@/components/ui/switch";
 
 import { mPlatforms } from "@/constants/platform";
 import { mTones } from "@/constants/tone";
@@ -14,14 +15,16 @@ import { cn, hasUrl } from "@/lib/utils";
 interface InputSectionProps {
   product: Product;
   isGenerating: boolean;
+  generateThumbnail: boolean;
   onProductNameChange: (value: string) => void;
   onDescriptionChange: (value: string) => void;
   onPlatformChange: (value: string) => void;
   onToneChange: (value: string) => void;
   onGenerate: () => void;
+  onGenerateThumbnailChange: (value: boolean) => void;
 }
 
-export function InputSection({ product, isGenerating, onProductNameChange, onDescriptionChange, onPlatformChange, onToneChange, onGenerate }: InputSectionProps) {
+export function InputSection({ product, isGenerating, generateThumbnail, onProductNameChange, onDescriptionChange, onPlatformChange, onToneChange, onGenerate, onGenerateThumbnailChange }: InputSectionProps) {
   const containsUrl = hasUrl(product.productDescription);
 
   return (
@@ -78,10 +81,16 @@ export function InputSection({ product, isGenerating, onProductNameChange, onDes
           </div>
         </div>
 
-        <Button size="lg" onClick={onGenerate} disabled={!product.productName.trim() || !product.productDescription.trim() || !product.platform || !product.tone || isGenerating} className="w-full">
-          {isGenerating ? <Loader2 className="h-7 w-7 animate-spin" /> : <Sparkles className="h-7 w-7" />}
-          {isGenerating ? "Generating..." : "Generate Creative Angles"}
-        </Button>
+        <div className="flex flex-col md:flex-row items-start md:items-center gap-2">
+          <div className="flex items-center flex-shrink-0 space-x-2 border border-gray-200 rounded-md p-2 w-full md:w-auto">
+            <Switch id="generate-thumbnail" checked={generateThumbnail} onCheckedChange={onGenerateThumbnailChange} />
+            <label htmlFor="generate-thumbnail">First Angle Thumbnail</label>
+          </div>
+          <Button size="lg" onClick={onGenerate} disabled={!product.productName.trim() || !product.productDescription.trim() || !product.platform || !product.tone || isGenerating} className="w-full">
+            {isGenerating ? <Loader2 className="h-7 w-7 animate-spin" /> : <Sparkles className="h-7 w-7" />}
+            {isGenerating ? "Generating..." : "Generate Creative Angles"}
+          </Button>
+        </div>
       </CardContent>
     </Card>
   );

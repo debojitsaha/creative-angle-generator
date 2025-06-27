@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { toast } from "sonner";
 import { generateCreativeAngles, generateCreativeAnglesThumbnail } from "@/app/api/creative-angles";
 
 import { Skeleton } from "@/components/ui/skeleton";
@@ -28,6 +29,7 @@ export function HomeView() {
     return [];
   });
   const [showSuggestions, setShowSuggestions] = useState(true);
+  const [generateThumbnail, setGenerateThumbnail] = useState(false);
 
   const handleGenerate = async () => {
     if (!product.productName.trim() || !product.productDescription.trim() || !product.platform || !product.tone) return;
@@ -42,14 +44,14 @@ export function HomeView() {
 
       let updatedAngles = [...angles];
 
-      // Automatically generate thumbnail for the first angle
-      if (angles.length > 0) {
+      if (angles.length > 0 && generateThumbnail) {
         try {
           const thumbnailUrl = await generateCreativeAnglesThumbnail(angles[0]);
 
           updatedAngles = updatedAngles.map((angle, index) => (index === 0 ? { ...angle, thumbnail: thumbnailUrl } : angle));
         } catch (error) {
           console.error("Error generating thumbnail for first angle:", error);
+          toast.error("Error generating thumbnail");
         }
       }
 
@@ -59,6 +61,7 @@ export function HomeView() {
       setGeneratedAngles(newList);
     } catch (error) {
       console.error("Error generating angles:", error);
+      toast.error("Error generating angles");
     } finally {
       setIsGenerating(false);
     }
@@ -71,7 +74,8 @@ export function HomeView() {
       setGeneratedAngles((prev) => prev.map((a, i) => (i === index ? { ...a, thumbnail: thumbnailUrl } : a)));
     } catch (error) {
       console.error("Error generating thumbnail:", error);
-      throw error; // Re-throw to handle in the component
+      toast.error("Error generating thumbnail");
+      throw error;
     }
   };
 
@@ -81,7 +85,7 @@ export function HomeView() {
   };
 
   const handleRegenerateAngle = (index: number) => {
-    // In a real app, you'd regenerate just this specific angle
+    // TODO: Regenerate the angle at the given index
     console.log("Regenerating angle at index:", index);
   };
 
@@ -123,11 +127,13 @@ export function HomeView() {
             <InputSection
               product={product}
               isGenerating={isGenerating}
+              generateThumbnail={generateThumbnail}
               onProductNameChange={(value) => setProduct({ ...product, productName: value })}
               onDescriptionChange={(value) => setProduct({ ...product, productDescription: value })}
               onPlatformChange={(value) => setProduct({ ...product, platform: value })}
               onToneChange={(value) => setProduct({ ...product, tone: value })}
               onGenerate={handleGenerate}
+              onGenerateThumbnailChange={(value) => setGenerateThumbnail(value)}
             />
 
             {showSuggestions ? (
