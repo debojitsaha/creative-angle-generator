@@ -62,7 +62,7 @@ export function TwitterCard({ angle, onSave, onRegenerate, onDiscard, onGenerate
 
               {angle.thumbnail ? (
                 <div className="rounded-2xl overflow-hidden border border-gray-200 mt-3">
-                  <img src={angle.thumbnail} alt={`Thumbnail for ${angle.headline}`} className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300" />
+                  <img src={angle.thumbnail} alt={`Thumbnail for ${angle.headline}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                 </div>
               ) : (
                 <div className="h-48 bg-gray-100 rounded-2xl flex items-center justify-center border border-gray-200 mt-3">

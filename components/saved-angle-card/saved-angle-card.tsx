@@ -9,11 +9,11 @@ interface SavedAngleCardProps {
 
 export function SavedAngleCard({ angle, onRemove }: SavedAngleCardProps) {
   return (
-    <div className="group flex items-center justify-center gap-4 w-full border border-gray-200 rounded-lg p-3 relative">
+    <div className="group flex flex-col md:flex-row items-center justify-center gap-4 w-full border border-gray-200 rounded-lg p-3 relative">
       <Button size="icon" variant="ghost" onClick={() => onRemove(angle.id!)} className="absolute top-2 right-2">
         <XIcon className="h-6 w-6 text-gray-400" />
       </Button>
-      <div className="w-48 h-44 border border-gray-200 rounded-lg flex items-center justify-center overflow-hidden">
+      <div className="w-full md:w-48 h-44 border border-gray-200 rounded-lg flex items-center justify-center overflow-hidden">
         {angle.thumbnail ? (
           <img src={angle.thumbnail} alt={angle.headline} className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300" />
         ) : (
@@ -24,8 +24,8 @@ export function SavedAngleCard({ angle, onRemove }: SavedAngleCardProps) {
         )}
       </div>
       <div className="flex flex-col items-start gap-px flex-1">
-        <h3 className="text-sm text-gray-600">
-          {angle.product.productName} • {angle.product.platform}
+        <h3 className="text-sm text-gray-600 font-semibold mb-2.5">
+          {angle.product.productName} • <span className="bg-blue-50 text-blue-600 border border-blue-200 capitalize px-3 py-1 rounded-full">{angle.product.platform}</span>
         </h3>
         <h4 className="text-lg font-medium line-clamp-2">{angle.headline}</h4>
         <p className="text-sm text-gray-600 line-clamp-2">{angle.hook}</p>

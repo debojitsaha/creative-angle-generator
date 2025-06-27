@@ -56,7 +56,7 @@ export function FacebookCard({ angle, onSave, onRegenerate, onDiscard, onGenerat
 
         {angle.thumbnail ? (
           <div className="relative overflow-hidden">
-            <img src={angle.thumbnail} alt={`Thumbnail for ${angle.headline}`} className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300" />
+            <img src={angle.thumbnail} alt={`Thumbnail for ${angle.headline}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
           </div>
         ) : (
           <div className="h-48 bg-gray-100 flex items-center justify-center border-t border-b border-gray-100">

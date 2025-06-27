@@ -61,7 +61,7 @@ export function GoogleCard({ angle, onSave, onRegenerate, onDiscard, onGenerateT
 
             {angle.thumbnail ? (
               <div className="rounded-lg overflow-hidden border border-gray-200 mt-3">
-                <img src={angle.thumbnail} alt={`Thumbnail for ${angle.headline}`} className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300" />
+                <img src={angle.thumbnail} alt={`Thumbnail for ${angle.headline}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
               </div>
             ) : (
               <div className="h-40 bg-gray-50 rounded-lg flex items-center justify-center border border-gray-200 mt-3">
