@@ -40,8 +40,6 @@ git clone https://github.com/yourusername/creative-angle-generator.git
 cd creative-angle-generator
 ```
 
-````
-
 ### 2. Install Dependencies
 
 ```bash
@@ -56,8 +54,6 @@ Create a `.env` file and add:
 NEXT_PUBLIC_OPENAI_API_KEY=your_openai_key
 NEXT_PUBLIC_FIRECRAWL_API_KEY=your_firecrawl_key
 ```
-
-> 🔐 Never expose your OpenAI key in the frontend. All image and generation requests go through the `/api/` layer.
 
 ### 4. Run the Dev Server
 
@@ -104,4 +100,3 @@ Made by [Debojit Saha](https://github.com/debojitsaha)
 Built for a solo hackathon challenge with a focus on **AI x UI**.
 
 ---
-````
