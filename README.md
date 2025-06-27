@@ -65,25 +65,6 @@ Visit [http://localhost:3000](http://localhost:3000)
 
 ---
 
-## 📂 Project Structure
-
-```
-app/
-├─ api/
-│  ├─ generate-angle/        → OpenAI text generation API
-│  ├─ generate-image/        → OpenAI image generation (server-side only)
-├─ components/
-│  ├─ PromptForm.tsx         → Form input for product/URL
-│  ├─ OutputGrid.tsx         → Grid view for generated ideas
-│  ├─ SavedCampaigns.tsx     → View + export saved ideas
-│  ├─ ScrapeButton.tsx       → Firecrawl integration
-├─ lib/
-│  ├─ prompts.ts             → Prompt templates for AI
-│  ├─ utils.ts               → Firecrawl & helper methods
-```
-
----
-
 ## ✅ How It Works
 
 1. User pastes a **product URL** or types a description
