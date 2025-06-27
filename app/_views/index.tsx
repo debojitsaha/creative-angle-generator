@@ -29,7 +29,7 @@ export function HomeView() {
     return [];
   });
   const [showSuggestions, setShowSuggestions] = useState(true);
-  const [generateThumbnail, setGenerateThumbnail] = useState(false);
+  const [generateThumbnail, setGenerateThumbnail] = useState(true);
 
   const handleGenerate = async () => {
     if (!product.productName.trim() || !product.productDescription.trim() || product.platform.length === 0 || !product.tone) {

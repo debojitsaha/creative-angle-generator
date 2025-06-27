@@ -62,8 +62,8 @@ export function InputSection({ product, isGenerating, generateThumbnail, onProdu
             <label className="text-sm font-medium text-gray-700 mb-2 block">Platforms</label>
             <Popover>
               <PopoverTrigger asChild>
-                <Button variant="outline" className="w-full justify-between">
-                  {product.platform.length > 0 ? `${product.platform.length} platform${product.platform.length > 1 ? "s" : ""} selected` : "Select Platforms"}
+                <Button variant="outline" className="w-full justify-between capitalize">
+                  {product.platform.length > 0 ? `${product.platform.join(", ")}` : "Select Platforms"}
                   <ChevronDownIcon className="ml-2 h-4 w-4" />
                 </Button>
               </PopoverTrigger>
