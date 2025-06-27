@@ -11,6 +11,7 @@ A smart and sleek marketing ideation tool that uses AI to generate campaign angl
   - Creative campaign angles
   - Hook headlines and CTAs
   - Platform-specific messaging (e.g. Instagram, LinkedIn, etc.)
+  - Supports multiple platform angles creation in a single hit
 - 💾 **Save & Export Ideas** – Save top angles and export as CSV
 - 🖼️ **Image Generation** – Visual concepts via OpenAI DALL·E
 - 📜 **History Panel** – Browse and reuse past prompts and generations

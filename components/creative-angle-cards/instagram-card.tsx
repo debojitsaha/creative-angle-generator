@@ -44,7 +44,7 @@ export function InstagramCard({ angle, onSave, onRegenerate, onDiscard, onGenera
       <CardContent className="p-0 group flex-1 flex flex-col">
         {angle.thumbnail ? (
           <div className="aspect-square relative overflow-hidden">
-            <img src={angle.thumbnail} alt={`Thumbnail for ${angle.headline}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+            <img src={angle.thumbnail} alt={`Thumbnail for ${angle.headline}`} className="w-full h-full max-h-96 object-cover group-hover:scale-105 transition-transform duration-300" />
           </div>
         ) : (
           <div className="aspect-square bg-gray-100 flex items-center justify-center">
