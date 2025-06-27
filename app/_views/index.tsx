@@ -113,9 +113,9 @@ export function HomeView() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-gray-50">
       <div className="container mx-auto px-4 py-8">
-        <div className="text-center mb-8 flex flex-col items-center gap-1">
-          <h1 className="text-3xl font-bold text-gray-900">Creative Angle Generator</h1>
-          <p className="text-xl text-gray-600">Turn product features into viral campaigns in seconds</p>
+        <div className="mb-8 flex flex-col items-start md:items-center gap-1">
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-900">Creative Angle Generator</h1>
+          <p className="text-base md:text-xl text-gray-600">Turn product features into viral creatives in seconds</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">

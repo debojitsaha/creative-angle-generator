@@ -15,16 +15,18 @@ export function SavedAngles({ angles, onRemove, onExport, onShiftToDashboard }: 
   return (
     <Card className="sticky top-4 h-full max-h-screen overflow-y-auto">
       <CardHeader>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-col-reverse md:flex-row items-start md:items-center gap-2 w-full">
           <CardTitle className="text-lg">Saved Angles</CardTitle>
-          <Button size="sm" variant="outline" disabled={angles.length === 0} onClick={onExport} className="ml-auto">
-            <Download className="h-3 w-3 mr-1" />
-            Export
-          </Button>
-          <Button size="sm" variant="gradient" disabled={angles.length === 0} onClick={onShiftToDashboard}>
-            <LayoutDashboard className="h-3 w-3" />
-            View in Grid
-          </Button>
+          <div className="flex items-center gap-2 ml-auto">
+            <Button size="sm" variant="outline" disabled={angles.length === 0} onClick={onExport}>
+              <Download className="h-3 w-3 mr-1" />
+              Export
+            </Button>
+            <Button size="sm" variant="gradient" disabled={angles.length === 0} onClick={onShiftToDashboard}>
+              <LayoutDashboard className="h-3 w-3" />
+              View in Grid
+            </Button>
+          </div>
         </div>
         <CardDescription>{angles.length} saved</CardDescription>
       </CardHeader>

@@ -26,12 +26,12 @@ export function InputSection({ product, isGenerating, onProductNameChange, onDes
 
   return (
     <Card>
-      <CardHeader className="flex flex-row items-center justify-between">
+      <CardHeader className="flex flex-row items-start justify-between space-y-0">
         <div className="flex flex-col gap-2">
           <CardTitle>Creative Angles</CardTitle>
           <CardDescription>Describe your product and we'll generate compelling marketing angles</CardDescription>
         </div>
-        <BugIcon className={cn("w-7 h-7", containsUrl ? "text-green-500" : "text-gray-500")} />
+        <BugIcon className={cn("w-7 h-7 flex-shrink-0", containsUrl ? "text-green-500" : "text-gray-500")} />
       </CardHeader>
       <CardContent className="space-y-4">
         <div>

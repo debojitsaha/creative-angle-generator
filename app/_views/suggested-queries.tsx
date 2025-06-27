@@ -27,7 +27,7 @@ export function SuggestedQueries({ onQuerySelect }: SuggestedQueriesProps) {
 
   return (
     <Card>
-      <CardHeader className="w-full flex flex-row items-center justify-between">
+      <CardHeader className="w-full flex flex-row items-start justify-between space-y-0">
         <div className="flex flex-col gap-1.5">
           <CardTitle className="flex items-center justify-between gap-2">Try These Examples</CardTitle>
           <CardDescription>Click on any example to get started quickly</CardDescription>
