@@ -16,7 +16,7 @@ export function HomeView() {
   const [product, setProduct] = useState<Product>({
     productName: "",
     productDescription: "",
-    platform: "",
+    platform: [],
     tone: "",
   });
   const [isGenerating, setIsGenerating] = useState(false);
@@ -32,7 +32,10 @@ export function HomeView() {
   const [generateThumbnail, setGenerateThumbnail] = useState(false);
 
   const handleGenerate = async () => {
-    if (!product.productName.trim() || !product.productDescription.trim() || !product.platform || !product.tone) return;
+    if (!product.productName.trim() || !product.productDescription.trim() || product.platform.length === 0 || !product.tone) {
+      toast.error("Please fill in all fields");
+      return;
+    }
 
     setIsGenerating(true);
     setShowSuggestions(false);
@@ -130,7 +133,7 @@ export function HomeView() {
               generateThumbnail={generateThumbnail}
               onProductNameChange={(value) => setProduct({ ...product, productName: value })}
               onDescriptionChange={(value) => setProduct({ ...product, productDescription: value })}
-              onPlatformChange={(value) => setProduct({ ...product, platform: value })}
+              onPlatformChange={(platforms) => setProduct({ ...product, platform: platforms })}
               onToneChange={(value) => setProduct({ ...product, tone: value })}
               onGenerate={handleGenerate}
               onGenerateThumbnailChange={(value) => setGenerateThumbnail(value)}

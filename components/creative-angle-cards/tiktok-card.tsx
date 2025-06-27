@@ -30,11 +30,11 @@ export function TiktokCard({ angle, onSave, onRegenerate, onDiscard, onGenerateT
   };
 
   return (
-    <Card className="flex flex-col h-full bg-black text-white rounded-2xl overflow-hidden relative max-w-sm mx-auto">
+    <Card className="flex flex-col h-full bg-black text-white rounded-2xl overflow-hidden relative mx-auto">
       <CardContent className="p-0 group flex-1 flex flex-col relative">
         <div className="relative flex-1 bg-black">
           {angle.thumbnail ? (
-            <div className="relative h-full overflow-hidden rounded-lg">
+            <div className="relative h-full max-h-96 overflow-hidden rounded-lg">
               <img src={angle.thumbnail} alt={`Thumbnail for ${angle.headline}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
               <div className="absolute inset-0 bg-black bg-opacity-20" />
               <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
@@ -49,7 +49,7 @@ export function TiktokCard({ angle, onSave, onRegenerate, onDiscard, onGenerateT
                 <Image className="mx-auto h-12 w-12 mb-4" />
                 <p className="text-sm mb-3">No video yet</p>
                 {!angle.thumbnail && (
-                  <Button size="sm" variant="outline" onClick={handleGenerateThumbnail} disabled={isGeneratingThumbnail} className="border-gray-600 text-gray-300 hover:bg-gray-800">
+                  <Button size="sm" variant="outline" onClick={handleGenerateThumbnail} disabled={isGeneratingThumbnail} className="relative z-10 border-gray-600 text-gray-300 hover:bg-gray-200">
                     {isGeneratingThumbnail ? <Loader2 className="mr-1 h-3 w-3 animate-spin" /> : "Generate"}
                   </Button>
                 )}

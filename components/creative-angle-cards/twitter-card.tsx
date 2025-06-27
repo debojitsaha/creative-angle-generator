@@ -33,7 +33,7 @@ export function TwitterCard({ angle, onSave, onRegenerate, onDiscard, onGenerate
   const characterCount = tweetText.length;
 
   return (
-    <Card className="flex flex-col h-full bg-white border border-gray-200 rounded-xl overflow-hidden hover:bg-gray-50 transition-colors">
+    <Card className="flex flex-col h-full bg-white border border-gray-200 rounded-xl overflow-hidden">
       <CardContent className="p-0 group flex-1 flex flex-col">
         <div className="p-4 flex items-start space-x-3">
           <div className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden">

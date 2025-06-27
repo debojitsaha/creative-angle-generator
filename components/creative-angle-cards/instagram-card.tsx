@@ -30,7 +30,7 @@ export function InstagramCard({ angle, onSave, onRegenerate, onDiscard, onGenera
   };
 
   return (
-    <Card className="flex flex-col h-full bg-white border border-gray-200 rounded-lg overflow-hidden max-w-md mx-auto">
+    <Card className="flex flex-col h-full bg-white border border-gray-200 rounded-lg overflow-hidden">
       <div className="p-3 flex items-center space-x-3">
         <div className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 p-0.5 overflow-hidden">
           <img src={InstagramIcon.src} alt="Instagram" className="w-full h-full object-cover" />

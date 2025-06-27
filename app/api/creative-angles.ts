@@ -28,41 +28,60 @@ export async function generateCreativeAngles(product: Product): Promise<Creative
       }
     }
 
-    const response = await openaiClient.chat.completions.create({
-      model: "gpt-4o",
-      messages: [
-        {
-          role: "system",
-          content: generateCreativeAnglesPrompt,
-        },
-        {
-          role: "user",
-          content: `Product Name: ${product.productName}, Product Description: ${product.productDescription}, Platform: ${product.platform}, Tone: ${product.tone}, Website Scraped Content: ${JSON.stringify(scrapedData)}`,
-        },
-      ],
-      response_format: {
-        type: "json_schema",
-        json_schema: {
-          name: "pick_gpt_keywords_responses",
-          description: "Gpt keywords response structure.",
-          schema: JsonSchema(
-            z.object({
-              angles: z.array(CreativeAngleSchema),
-            })
-          ),
-        },
-      },
-      temperature: 0.2,
-    });
+    // Generate angles for each platform
+    const allAngles: CreativeAngle[] = [];
 
-    if (!response.choices[0].message.content) {
-      console.error("No response from AI", response);
-      throw new Error("No response from AI");
+    const anglesCount = Math.max(1, Math.ceil(4 / product.platform.length));
+    for (const platform of product.platform) {
+      const response = await openaiClient.chat.completions.create({
+        model: "gpt-4o",
+        messages: [
+          {
+            role: "system",
+            content: generateCreativeAnglesPrompt,
+          },
+          {
+            role: "user",
+            content: `Product Name: ${product.productName}, Product Description: ${product.productDescription}, Platform: ${platform}, Tone: ${product.tone}, Website Scraped Content: ${JSON.stringify(
+              scrapedData
+            )}, Angles Count: ${anglesCount}`,
+          },
+        ],
+        response_format: {
+          type: "json_schema",
+          json_schema: {
+            name: "pick_gpt_keywords_responses",
+            description: "Gpt keywords response structure.",
+            schema: JsonSchema(
+              z.object({
+                angles: z.array(CreativeAngleSchema),
+              })
+            ),
+          },
+        },
+        temperature: 0.2,
+      });
+
+      if (!response.choices[0].message.content) {
+        console.error("No response from AI", response);
+        continue; // Skip this platform if no response
+      }
+
+      const { angles } = JSON.parse(response.choices[0].message.content) as { angles: CreativeAngle[] };
+
+      // Update each angle to have the correct platform format
+      const platformAngles = angles.map((angle) => ({
+        ...angle,
+        product: {
+          ...angle.product,
+          platform: [platform],
+        },
+      }));
+
+      allAngles.push(...platformAngles);
     }
 
-    const { angles } = JSON.parse(response.choices[0].message.content) as { angles: CreativeAngle[] };
-
-    return angles;
+    return allAngles;
   } catch (error) {
     console.error("Error generating creative angles:", error);
     throw new Error("Failed to generate creative angles");
@@ -71,6 +90,9 @@ export async function generateCreativeAngles(product: Product): Promise<Creative
 
 export async function generateCreativeAnglesThumbnail(angle: CreativeAngle): Promise<string> {
   try {
+    // Handle both array and string platforms for backward compatibility
+    const platform = Array.isArray(angle.product.platform) ? angle.product.platform[0] : angle.product.platform;
+
     const promptResponse = await openaiClient.chat.completions.create({
       model: "gpt-4o",
       messages: [
@@ -82,7 +104,7 @@ export async function generateCreativeAnglesThumbnail(angle: CreativeAngle): Pro
           role: "user",
           content: `Product Name: ${angle.product.productName}
           Product Description: ${angle.product.productDescription}
-          Platform: ${angle.product.platform}
+          Platform: ${platform}
           Tone: ${angle.product.tone}
           Creative Angle:
           - Headline: ${angle.headline}
@@ -103,7 +125,7 @@ export async function generateCreativeAnglesThumbnail(angle: CreativeAngle): Pro
     const imageResponse = await openaiClient.images.generate({
       model: "dall-e-3",
       prompt: imagePrompt,
-      size: angle.product.platform === "linkedin" ? "1792x1024" : "1024x1792",
+      size: platform === "linkedin" ? "1792x1024" : "1024x1792",
       quality: "standard",
       n: 1,
     });

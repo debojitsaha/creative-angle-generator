@@ -26,7 +26,10 @@ interface CreativeAngleCardProps {
 }
 
 export function CreativeAngleCard({ angle, onSave, onRegenerate, onDiscard, onGenerateThumbnail, index }: CreativeAngleCardProps) {
-  switch (angle.product.platform) {
+  // Handle both array and string platforms for backward compatibility
+  const platform = Array.isArray(angle.product.platform) ? angle.product.platform[0] : angle.product.platform;
+
+  switch (platform) {
     case "facebook":
       return <FacebookCard angle={angle} onSave={onSave} onRegenerate={onRegenerate} onDiscard={onDiscard} onGenerateThumbnail={onGenerateThumbnail} index={index} />;
     case "instagram":
@@ -58,13 +61,16 @@ function DefaultCard({ angle, onSave, onRegenerate, onDiscard, onGenerateThumbna
     setIsGeneratingThumbnail(false);
   };
 
+  // Handle both array and string platforms for backward compatibility
+  const platform = Array.isArray(angle.product.platform) ? angle.product.platform[0] : angle.product.platform;
+
   return (
     <Card className="flex flex-col h-full">
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between">
-          {angle.product.platform ? (
+          {platform ? (
             <Badge variant="secondary" className="mb-2">
-              {mPlatforms.find((p) => p.value === angle.product.platform)?.label}
+              {mPlatforms.find((p) => p.value === platform)?.label}
             </Badge>
           ) : null}
           {angle.product.tone ? <Badge variant="outline">{mTones.find((t) => t.value === angle.product.tone)?.label}</Badge> : null}
